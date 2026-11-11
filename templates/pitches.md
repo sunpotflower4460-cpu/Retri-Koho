@@ -25,3 +25,11 @@ fra（植木嘉朗）／ forestinfarm@outlook.jp
 - Apple Music: https://music.apple.com/jp/album/re-trip-single/1853473263
 よろしくお願いいたします。
 fra（植木嘉朗）／ forestinfarm@outlook.jp
+
+## (c) YouTube固定コメント（2026-11-11 提示・実施待ち）
+
+ご視聴ありがとうございます。fraの「Re:trip」です（作詞・作曲を手がけました）。
+🎧 配信はこちら（Apple Music）: https://music.apple.com/jp/album/re-trip-single/1853473263
+同じ場所に来ても、誰と来るかで景色は変わる――そんな旅の感覚を込めた曲です。聴いて浮かんだ景色や、あなたの「もう一度行きたい場所」があれば、ぜひコメントで教えてください。
+
+反応メモ: （実施後に追記）
