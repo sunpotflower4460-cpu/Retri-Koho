@@ -33,3 +33,28 @@ fra（植木嘉朗）／ forestinfarm@outlook.jp
 同じ場所に来ても、誰と来るかで景色は変わる――そんな旅の感覚を込めた曲です。聴いて浮かんだ景色や、あなたの「もう一度行きたい場所」があれば、ぜひコメントで教えてください。
 
 反応メモ: （実施後に追記）
+
+## (d) Music Mondays 掲載ピッチ（2026-11-12 提示・実施待ち）
+
+宛先: submissions.musicmondays@gmail.com
+件名: fra MUSIC MONDAY MUSICIAN SUBMISSION
+
+Hello Music Mondays team,
+
+I am fra (Yoshiro Ueki), a singer-songwriter / world-building creator from Japan. I am writing to ask if my song "Re:trip" could be considered for a feature on your homepage (interview, review, or written piece).
+
+About the song: I wrote the lyrics and music for "Re:trip". It is a gentle, light-filled song about how the same place can look completely different when you visit it with someone special — a small journey inside everyday life. An animated music video is available on YouTube.
+
+Listen / watch:
+- YouTube (full animated MV): https://youtu.be/lb_twIp3Wc4
+- Apple Music: https://music.apple.com/jp/album/re-trip-single/1853473263
+
+Contact: forestinfarm@outlook.jp
+Instagram: @flowertty4460
+
+Thank you very much for your time and for supporting independent artists.
+
+Best regards,
+fra (Yoshiro Ueki)
+
+反応メモ: （送信・返信後に追記）
