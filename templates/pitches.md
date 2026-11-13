@@ -34,7 +34,7 @@ fra（植木嘉朗）／ forestinfarm@outlook.jp
 
 反応メモ: （実施後に追記）
 
-## (d) Music Mondays 掲載ピッチ（2026-11-12 提示・実施待ち）
+## (d) Music Mondays 掲載ピッチ（2026-11-12 提示・2026-11-12 19:31 JST 送信済み）
 
 宛先: submissions.musicmondays@gmail.com
 件名: fra MUSIC MONDAY MUSICIAN SUBMISSION
@@ -57,4 +57,14 @@ Thank you very much for your time and for supporting independent artists.
 Best regards,
 fra (Yoshiro Ueki)
 
-反応メモ: （送信・返信後に追記）
+反応メモ: 2026-11-12、本人の承認文面のまま Muse が本人の Outlook から送信済み。返信は未確認（2026-11-13時点、出典: Dots手紙でも再送防止のため共有済み）。
+
+---
+
+## (e) X投稿文（2026-11-13 提示・実施待ち）
+
+fra の新曲「Re:trip」を公開しています。作詞・作曲を手がけました。同じ場所でも、誰と来るかで景色は変わる — そんな「もう一度」の旅の歌です。フルMVはこちらから。
+https://youtu.be/lb_twIp3Wc4
+#オリジナル曲 #インディーズ音楽
+
+反応メモ: （実施後に追記）
