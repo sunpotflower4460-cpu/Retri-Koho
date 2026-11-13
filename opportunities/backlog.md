@@ -18,10 +18,12 @@
 | Eggs 楽曲公開 | 楽曲公開先 | なし | 無料 | 未着手（条件確認中） | 出典: Dots。公開は無料・MP3/AAC。既存ページとの重複と録音物の再掲載権限を確認するまで進めない |
 | Radio Wigwam ARTIST枠 | ラジオ | なし | 無料 | 未着手（保留・要本人確認） | 出典: Dots。月1曲の無料枠があるが、規約に永久・撤回不可・改変を含む広い利用許諾あり。無料でも気軽に出せる候補とは扱わない |
 | J-WAVE SPARK BOX | ラジオ/メディア | なし | 無料 | 未着手（条件確認中） | 出典: Dots。フォームにSNS等での一般公開同意と第三者著作物・生成AIの確認あり。録音物・画像の条件充足は未確認 |
-| X投稿（YouTubeリンクのみ・音源添付なし） | SNS導線 | なし | 無料 | 未着手 | 出典: Dots（素材チェック表に下書き準備済み）。Shortsの説明欄・コメントの通常URLはクリック不可のため、Shortsでは関連動画設定が別案 |
+| X投稿（YouTubeリンクのみ・音源添付なし） | SNS導線 | なし | 無料 | 提示済み（2026-11-13） | 出典: Dots（素材チェック表に下書き準備済み）。Shortsの説明欄・コメントの通常URLはクリック不可のため、Shortsでは関連動画設定が別案 |
 | LANDR PromoLink 公開URLの確認 | 導線確認 | なし | 無料 | 未着手 | 出典: Dots。既存リリースのPromolinkが分かれば配信導線を照合できる。Amazon Musicの曲名・名義一致候補は本人の録音か未確認のため確定導線にしない。Spotify曲URLの確定もこの確認に統合（2026-11-12、出典: Dots） |
-| Music Mondays 掲載ピッチ（メール） | メディア/ポッドキャスト | なし | 無料 | 提示済み（2026-11-12） | 公式 https://www.allmusicmondays.com/submissions : ホームページ掲載（interview/review）はメール submissions.musicmondays@gmail.com 宛、件名 (ARTIST NAME) MUSIC MONDAY MUSICIAN SUBMISSION、本文に直接リンク＋連絡先＋SNS。MP3/WAV添付は開かないためリンクのみ。文面は templates/pitches.md (d)。約3分 |
-| Lost On Radio（Right Chord Music） | ポッドキャスト/プレイリスト | なし | 未確認 | 未着手 | 未契約・インディー向けポッドキャスト（200回超）＋Spotifyプレイリスト。contactフォームからバイオ＋リンクで応募 https://www.rightchordmusic.co.uk/lost-on-radio-the-music-podcast-for-unsigned-artists/ |
+| Music Mondays 掲載ピッチ（メール） | メディア/ポッドキャスト | なし | 無料 | 実施済み（2026-11-12 送信済み） | 公式 https://www.allmusicmondays.com/submissions : ホームページ掲載（interview/review）はメール submissions.musicmondays@gmail.com 宛、件名 (ARTIST NAME) MUSIC MONDAY MUSICIAN SUBMISSION、本文に直接リンク＋連絡先＋SNS。MP3/WAV添付は開かないためリンクのみ。文面は templates/pitches.md (d)。約3分。2026-11-12 19:31 JST に本人の承認文面のまま Muse が Outlook から送信済み（返信は未確認） |
+| Lost On Radio／Right Chord Music ブログ提出 | ブログ/プレイリスト | なし | 無料提出／有料レビュー£6は別判断 | 未着手（条件確認済み・公開URL待ち） | 出典: Dots深掘り（2026-11-13）＋公式About確認。ブログ提出は無料、文章レビュー£6はライター提案を本人が承諾した場合のみ（断れる）、提携ブログは£6-10で別料金。プレイリスト追加は無料の編集判断で独立ピッチなし。掲載にはSpotifyまたはBandcampの公開リンクが必要なためPromoLink確認待ちに統合。週次番組の継続は断定しない。提出は共通フォームのみ https://www.rightchordmusic.co.uk/about-rcm-unsigned-music-blog/ |
 | FMぱるるん POWER OF INDIES | ラジオ | なし | 郵送料のみ | 未着手（低優先） | 毎週1組を1週間パワープレイ。応募は郵送のみ（録音状態の良いオリジナル音源＋経歴・プロフィール資料、事前審査あり） https://www.fmpalulun.co.jp/archive/indies/ |
 | Indiemono 無料プレイリスト窓口 | プレイリスト | なし | 無料 | 未着手（条件確認待ち） | 出典: Dots。公開済みSpotify曲リンクが必要・旧作可・1曲1回で全プレイリスト検討、採用保証なし。Terms本文で楽曲の利用許諾範囲が確認できず、Spotify曲URLも未確定のため保留 https://indiemono.com/music-submit/ |
 | Apple Music for Artists Promote／Marketing Tools | 素材作成 | なし | 未確認 | 未着手（任意候補） | 出典: Dots。既にAdmin/Analyst権限を持つ場合にSNS用静止画・動画、リンク・バッジ・埋め込みプレイヤーを作れる公式経路。新規登録を勧めるものではない。ツール本体・料金は未確認 |
+| Soundplate 無料プレイリスト提出 | プレイリスト | なし | 無料 | 未着手（Spotify URL待ち） | 提出は常時無料のキュレーター・ディレクトリ。Spotifyログインとプレイリストのフォローが必要で、Spotify曲URLが前提のためPromoLink確認待ちに統合（2026-11-13登録） |
+| DailyPlaylists 無料プレイリスト提出 | プレイリスト | なし | 無料 | 未着手（Spotify URL待ち） | Standardキュレーターへ週10件まで無料提出、審査は21日以内目安。Spotify曲URLが前提のためPromoLink確認待ちに統合（2026-11-13登録） |
