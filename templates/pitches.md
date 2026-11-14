@@ -68,3 +68,23 @@ https://youtu.be/lb_twIp3Wc4
 #オリジナル曲 #インディーズ音楽
 
 反応メモ: （実施後に追記）
+
+---
+
+## (f) A&R Factory 提出フォーム入力内容（2026-11-14 提示・実施待ち）
+
+提出先: https://www.anrfactory.com/submit-demo/
+
+- Artist / Band / Name: fra
+- Genre: Singer-Songwriter / Indie Pop（選択肢がある場合は最も近いもの）
+- Track link: https://youtu.be/lb_twIp3Wc4
+- Release date: （既発曲。任意なら空欄。入力必須の場合は推測で入れず、配信ページで確認した日付を使う）
+- Website / social links: Instagram https://www.instagram.com/flowertty4460/ ／ Apple Music https://music.apple.com/jp/album/re-trip-single/1853473263
+- Artwork URL: （任意 ― 空欄）
+- EPK / about:
+
+I am fra (Yoshiro Ueki), a singer-songwriter and world-building creator from Japan. I wrote the lyrics and music for "Re:trip", a gentle song about how the same place can look completely different when you visit it with someone special — a small journey inside everyday life. An animated music video is available on YouTube (link above), and the song is streaming on Apple Music and other services. Contact: forestinfarm@outlook.jp / Instagram: @flowertty4460
+
+注意: 公式提出ページ（Step 1）で費用の記載は確認できなかった。途中で支払いを求める画面が出たら送信せず止める。
+
+反応メモ: （実施後に追記）
