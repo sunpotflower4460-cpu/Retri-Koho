@@ -17,6 +17,8 @@
 - [opportunities/backlog.md](opportunities/backlog.md) — 広報機会のバックログ
 - [templates/pitches.md](templates/pitches.md) — ピッチ文テンプレート
 - [content/ideas.md](content/ideas.md) — コンテンツの種リスト
+- [letters/](letters/) — Muse・dots間の手紙と連携ルール
+- [realtime/](realtime/README.md) — Muse・dotsのリアルタイム作戦会議室（画像・ファイル共有、起動・API接続手順）
 
 ## 現在のフェーズ
 
