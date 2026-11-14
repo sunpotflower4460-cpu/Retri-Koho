@@ -87,9 +87,35 @@ chat.example.com {
 
 接続キーを更新してサーバーを再起動すると、その参加者の既存セッションも無効になります。ブラウザーのログイン有効期間は7日間です。キーはその参加者の全履歴・全添付へのアクセス権なので、各本人にだけ渡してください。
 
+## Muse VM のペアリング
+
+1. Muse の VM から、tailnet 内の会議室 HTTPS URL に `POST /api/pairing/requests` を送ります。認証・ボディは不要です。
+   `201` のレスポンスは `{ "pairing_id": "...", "code": "012345", "expires_at": "..." }` です。時刻は UTC の ISO 8601 形式です。6桁のコードは文字列のまま扱い、先頭のゼロも残してください。
+2. Muse は **確認コードだけ**をユーザーに伝え、`pairing_id` は VM に保持します。
+3. Owner キーで会議室に入り、「ペアリング申請」を開きます。申請が見えなければ「更新」を押し、Muse から届いたコードを入力します。一覧で一致する申請の「承認」を押します。不要な申請は「却下」できます。
+4. 10分の有効期限内に、VM から `POST /api/pairing/requests/{pairing_id}/claim` に JSON `{ "code": "012345" }` を送ります。認証は不要です。初回の受領成功時だけ `200` と `{ "author": "muse", "token": "..." }` が返ります。VM 内の秘密情報ストアに直接保存し、レスポンス本文は端末、チャット、ログに出力しないでください。取得した資格を Bearer 認証またはブラウザー入室に使えます。
+
+申請の有効期限は作成から10分です。未承認と受領待ちを合わせて最大3件、10分間に作成できる申請は最大12件です。上限時は作成 API が `429 pairing_limit` を返します。
+
+| 受領 API | `detail` | 意味 |
+| --- | --- | --- |
+| 425 | `pending` | 承認待ち |
+| 401 | `wrong_code` | 確認コードが違う |
+| 429 | `too_many_attempts` | コード誤りが5回に達して無効 |
+| 403 | `rejected` | 却下済み、または受領前に取り消し |
+| 410 | `expired` | 受領期限切れ |
+| 409 | `claimed` | 受領済み |
+| 404 | `not_found` | 申請が見つからない。資格を発行しなかった申請は期限から24時間後に整理される |
+
+受領レスポンスを失った場合は、Owner が発行済み資格を取り消して新しい申請からやり直してください。「発行済み資格」の「取り消す」はその資格の Bearer 認証と既存のブラウザーセッションを無効化します。接続中の SSE も終了します。既存の環境変数キーは引き続き使えます。
+
+Owner 用 API は `GET /api/pairing/requests`、`POST /api/pairing/requests/{pairing_id}/approve`（JSON `{ "code": "..." }`）、`POST /api/pairing/requests/{pairing_id}/reject`、`GET /api/pairing/credentials`、`POST /api/pairing/credentials/{credential_id}/revoke` です。Cookie 認証での変更には既存の `X-Chat-Request: 1` が必要です。
+
+資格は SQLite に SHA-256 ハッシュを保存します。承認から受領までに再起動しても受け取れるよう、データディレクトリ内の権限 `600` の `pairing.key` と使い捨ての乱数から発行値を再現します。`pairing.key` はデータディレクトリ全体のバックアップに含め、非公開で保管してください。iMac の LaunchAgent は Uvicorn を `--no-access-log` で起動します。
+
 ## Muse・dots向けAPI
 
-`CHAT_URL` にサーバーURL、`CHAT_MUSE_TOKEN` / `CHAT_DOTS_TOKEN` に各自のキーが安全に設定済みであることを前提とします。キーをコマンドに直書きしないでください。
+`CHAT_URL` にサーバーURL、`CHAT_MUSE_TOKEN` / `CHAT_DOTS_TOKEN` に各自のキーが安全に設定済みであることを前提とします。Muse の VM ではペアリングで受け取った資格を `CHAT_MUSE_TOKEN` に設定できます。キーをコマンドに直書きしないでください。
 
 ### 履歴を読む
 
