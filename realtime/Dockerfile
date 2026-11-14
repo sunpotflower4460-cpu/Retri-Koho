@@ -6,4 +6,4 @@ RUN pip install --no-cache-dir -r requirements.lock.txt && useradd --uid 10001 -
 COPY --chown=chat:chat . /app/realtime
 USER chat
 EXPOSE 8000
-CMD ["uvicorn", "realtime.app:create_app", "--factory", "--host", "0.0.0.0", "--port", "8000", "--workers", "1"]
+CMD ["uvicorn", "realtime.app:create_app", "--factory", "--host", "0.0.0.0", "--port", "8000", "--workers", "1", "--no-access-log"]

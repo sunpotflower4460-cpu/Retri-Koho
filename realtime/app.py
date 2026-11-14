@@ -21,7 +21,13 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 from starlette.datastructures import UploadFile
 
-from .pairing import PUBLIC_PAIRING_POST, digest, issued_muse, register_pairing
+from .pairing import (
+    PAIRING_LINK_POST,
+    PUBLIC_PAIRING_POST,
+    digest,
+    issued_muse,
+    register_pairing,
+)
 
 HERE = Path(__file__).resolve().parent
 MAX_FILE_BYTES = 10 * 1024 * 1024
@@ -199,10 +205,16 @@ def create_app(settings=None):
     async def protect(request, call_next):
         if request.method not in ("GET", "HEAD", "OPTIONS"):
             origin = request.headers.get("origin")
-            if origin and origin != settings.origin:
+            signed_action = request.method == "POST" and PAIRING_LINK_POST.fullmatch(
+                request.url.path
+            )
+            # A native form can send Origin: null under Referrer-Policy: no-referrer.
+            # Only the signed pairing capability authorizes these two actions.
+            if origin and origin != settings.origin and not (signed_action and origin == "null"):
                 return JSONResponse({"detail": "別のサイトからは送信できません。"}, 403)
             if (
-                not PUBLIC_PAIRING_POST.fullmatch(request.url.path)
+                not signed_action
+                and not PUBLIC_PAIRING_POST.fullmatch(request.url.path)
                 and not request.headers.get("authorization", "").startswith("Bearer ")
                 and request.headers.get("x-chat-request") != "1"
             ):
@@ -215,8 +227,10 @@ def create_app(settings=None):
             "img-src 'self' blob:; connect-src 'self'; object-src 'none'; "
             "base-uri 'none'; frame-ancestors 'none'; form-action 'self'"
         )
-        if request.url.path.startswith("/api/"):
+        if request.url.path.startswith(("/api/", "/pairing/")):
             response.headers["Cache-Control"] = "no-store"
+        if request.url.path.startswith("/pairing/"):
+            response.headers["X-Robots-Tag"] = "noindex, nofollow, nosnippet"
         elif request.url.path in ("/", "/index.html", "/app.js", "/style.css"):
             response.headers["Cache-Control"] = "no-cache"
         return response
@@ -518,6 +532,6 @@ def create_app(settings=None):
             headers={"X-Accel-Buffering": "no", "Cache-Control": "no-store"},
         )
 
-    register_pairing(app, db, require_owner, changed, settings.data_dir)
+    register_pairing(app, db, require_owner, changed, settings.data_dir, settings.origin)
     app.mount("/", StaticFiles(directory=HERE / "static", html=True), name="ui")
     return app

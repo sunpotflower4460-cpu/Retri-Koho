@@ -6,6 +6,8 @@ import time
 from concurrent.futures import ThreadPoolExecutor
 from datetime import UTC, datetime
 from hashlib import sha256
+from types import SimpleNamespace
+from urllib.parse import parse_qs, urlsplit
 from uuid import uuid4
 
 import httpx
@@ -13,6 +15,7 @@ import pytest
 import uvicorn
 from fastapi.testclient import TestClient
 
+import realtime.pairing as pairing_module
 from realtime.app import MAX_FILE_BYTES, MAX_REQUEST_BYTES, Settings, create_app
 
 PNG = base64.b64decode(
@@ -393,7 +396,7 @@ def claim_pairing(client, pairing, code=None):
 
 def test_pairing_end_to_end_and_restart(client, settings):
     pairing = request_pairing(client)
-    assert set(pairing) == {"pairing_id", "code", "expires_at"}
+    assert set(pairing) == {"pairing_id", "code", "expires_at", "approve_url"}
     assert len(pairing["pairing_id"]) >= 32
     assert len(pairing["code"]) == 6 and pairing["code"].isascii() and pairing["code"].isdigit()
     expires = datetime.fromisoformat(pairing["expires_at"])
@@ -401,8 +404,8 @@ def test_pairing_end_to_end_and_restart(client, settings):
     owner = auth(settings, "owner")
     requests = client.get(f"{PAIRING}/requests", headers=owner).json()["requests"]
     assert len(requests) == 1
-    assert requests[0].keys() == pairing.keys() | {"created_at"}
-    assert all(requests[0][key] == value for key, value in pairing.items())
+    assert set(requests[0]) == {"pairing_id", "code", "expires_at", "created_at"}
+    assert all(requests[0][key] == pairing[key] for key in ("pairing_id", "code", "expires_at"))
     approval = approve_pairing(client, settings, pairing)
     assert approval.status_code == 200
     assert approval.json() == {"ok": True}
@@ -590,3 +593,174 @@ def test_secret_fields_are_redacted_from_validation_responses(client):
     pairing = request_pairing(client)
     response = claim_pairing(client, pairing, secret)
     assert response.status_code == 422 and secret not in response.text
+
+
+def approval_link(pairing):
+    url = urlsplit(pairing["approve_url"])
+    signature = parse_qs(url.query)["t"][0]
+    return url.path, signature
+
+
+def test_signed_approval_confirmation_is_read_only(client, settings):
+    response = client.post(f"{PAIRING}/requests", headers={"Host": "other.example"})
+    assert response.status_code == 201
+    pairing = response.json()
+    path, signature = approval_link(pairing)
+    assert pairing["approve_url"].startswith(settings.origin + "/pairing/approve/")
+    assert path.rsplit("/", 1)[-1] != pairing["pairing_id"]
+    assert len(signature) == 43
+    for _ in range(2):
+        page = client.get(pairing["approve_url"])
+        assert page.status_code == 200
+        assert page.headers["content-type"].startswith("text/html")
+        assert page.headers["cache-control"] == "no-store"
+        assert page.headers["referrer-policy"] == "no-referrer"
+        assert "noindex" in page.headers["x-robots-tag"]
+        assert "Muse のペアリング申請" in page.text and pairing["code"] in page.text
+        assert "作成" in page.text and pairing["expires_at"] in page.text
+        assert "承認する" in page.text and "却下する" in page.text
+        assert f'action="{path}"' in page.text and 'method="post"' in page.text
+        assert pairing["pairing_id"] not in page.text
+    assert claim_pairing(client, pairing).status_code == 425
+    owner = auth(settings, "owner")
+    assert client.get(f"{PAIRING}/credentials", headers=owner).json() == {"credentials": []}
+
+
+def test_signed_approval_then_claim_and_replay(client, settings):
+    pairing = request_pairing(client)
+    path, signature = approval_link(pairing)
+    completed = client.post(path, data={"t": signature}, headers={"Origin": "null"})
+    assert completed.status_code == 200
+    assert "承認しました。" in completed.text
+    assert "Muse に『承認した』と伝えてください。" in completed.text
+    assert signature not in completed.text
+
+    claimed = claim_pairing(client, pairing)
+    assert claimed.status_code == 200 and claimed.json()["author"] == "muse"
+    assert claim_pairing(client, pairing).status_code == 409
+    for replay in (
+        client.get(pairing["approve_url"]),
+        client.post(path, json={"t": signature}),
+        client.post(path.replace("/approve/", "/reject/"), data={"t": signature}),
+    ):
+        assert replay.status_code == 409
+        assert "処理済み" in replay.text and 'name="t"' not in replay.text
+    assert approve_pairing(client, settings, pairing).status_code == 409
+
+
+def test_signed_approval_rejects_tampering_and_cross_request_use(client):
+    first = request_pairing(client)
+    second = request_pairing(client)
+    path, signature = approval_link(first)
+    other_path, _ = approval_link(second)
+    tampered = ("B" if signature[0] == "A" else "A") + signature[1:]
+    for response in (
+        client.get(path, params={"t": tampered}),
+        client.post(path, json={"t": tampered}),
+        client.post(path.replace("/approve/", "/reject/"), data={"t": tampered}),
+        client.get(other_path, params={"t": signature}),
+        client.post(other_path, json={"t": signature}),
+        client.post(path, params={"t": signature}),
+    ):
+        assert response.status_code == 403
+        assert "無効です" in response.text
+        assert 'name="t"' not in response.text
+    assert claim_pairing(client, first).status_code == 425
+    assert claim_pairing(client, second).status_code == 425
+
+
+def test_signed_approval_includes_expiration_in_signature(client, settings):
+    pairing = request_pairing(client)
+    with sqlite3.connect(settings.data_dir / "chat.sqlite3") as db:
+        db.execute("UPDATE pairing_requests SET expires_at = expires_at + 1")
+    assert client.get(pairing["approve_url"]).status_code == 403
+
+
+def test_signed_approval_expires_before_submit(client, monkeypatch):
+    pairing = request_pairing(client)
+    path, signature = approval_link(pairing)
+    assert client.get(pairing["approve_url"]).status_code == 200
+    deadline = datetime.fromisoformat(pairing["expires_at"]).timestamp()
+    monkeypatch.setattr(pairing_module, "time", SimpleNamespace(time=lambda: deadline))
+    for response in (
+        client.get(pairing["approve_url"]),
+        client.post(path, data={"t": signature}),
+        client.post(path.replace("/approve/", "/reject/"), data={"t": signature}),
+    ):
+        assert response.status_code == 410
+        assert "期限切れ" in response.text
+        assert 'name="t"' not in response.text
+    assert claim_pairing(client, pairing).status_code == 410
+
+
+def test_signed_rejection(client, settings):
+    pairing = request_pairing(client)
+    path, signature = approval_link(pairing)
+    rejected = client.post(path.replace("/approve/", "/reject/"), data={"t": signature})
+    assert rejected.status_code == 200 and "却下しました。" in rejected.text
+    assert claim_pairing(client, pairing).json() == {"detail": "rejected"}
+    assert client.get(pairing["approve_url"]).status_code == 409
+    assert client.post(path, json={"t": signature}).status_code == 409
+    assert approve_pairing(client, settings, pairing).status_code == 409
+
+
+def test_signed_approval_and_owner_approval_race(client, settings):
+    pairing = request_pairing(client)
+    path, signature = approval_link(pairing)
+    block = threading.Barrier(2, timeout=5)
+    with TestClient(create_app(settings)) as other, ThreadPoolExecutor(2) as workers:
+        def approve_from_link():
+            block.wait()
+            return other.post(path, data={"t": signature})
+
+        def approve_as_owner():
+            block.wait()
+            return approve_pairing(client, settings, pairing)
+
+        results = [workers.submit(action) for action in (approve_from_link, approve_as_owner)]
+        assert sorted(result.result(timeout=10).status_code for result in results) == [200, 409]
+    credentials = client.get(f"{PAIRING}/credentials", headers=auth(settings, "owner"))
+    assert len(credentials.json()["credentials"]) == 1
+    assert claim_pairing(client, pairing).status_code == 200
+
+
+def test_approval_link_cannot_claim_post_or_revoke(client):
+    pairing = request_pairing(client)
+    path, signature = approval_link(pairing)
+    approval_id = path.rsplit("/", 1)[-1]
+    assert client.post(path, json={"t": signature}).status_code == 200
+    assert client.post(
+        f"{PAIRING}/requests/{approval_id}/claim", json={"code": pairing["code"]}
+    ).status_code == 404
+    headers = {"Authorization": "Bearer " + signature}
+    assert client.get("/api/me", headers=headers).status_code == 401
+    assert client.post(
+        "/api/messages", headers=headers, data={"body": "message", "client_id": str(uuid4())}
+    ).status_code == 401
+    assert client.post(
+        f"{PAIRING}/credentials/{pairing['pairing_id']}/revoke", headers=headers
+    ).status_code == 401
+    assert claim_pairing(client, pairing).status_code == 200
+
+
+def test_approval_signing_key_persists_across_restart(settings, monkeypatch):
+    monkeypatch.delenv("CHAT_PAIRING_SECRET", raising=False)
+    with TestClient(create_app(settings)) as client:
+        pairing = request_pairing(client)
+    assert (settings.data_dir / "pairing-approval.key").stat().st_mode & 0o777 == 0o600
+    with TestClient(create_app(settings)) as restarted:
+        assert restarted.get(pairing["approve_url"]).status_code == 200
+
+
+def test_configured_approval_secret_is_validated_and_used(settings, monkeypatch):
+    monkeypatch.setenv("CHAT_PAIRING_SECRET", "short")
+    with pytest.raises(RuntimeError, match="CHAT_PAIRING_SECRET"):
+        create_app(settings)
+    monkeypatch.setenv("CHAT_PAIRING_SECRET", "a" * 40)
+    with TestClient(create_app(settings)) as client:
+        pairing = request_pairing(client)
+        assert client.get(pairing["approve_url"]).status_code == 200
+    assert not (settings.data_dir / "pairing-approval.key").exists()
+    monkeypatch.setenv("CHAT_PAIRING_SECRET", "b" * 40)
+    with TestClient(create_app(settings)) as restarted:
+        assert restarted.get(pairing["approve_url"]).status_code == 403

@@ -42,7 +42,7 @@ chmod 600 realtime/.env
 set -a
 . realtime/.env
 set +a
-.venv/bin/uvicorn realtime.app:create_app --factory --host 127.0.0.1 --port 8000 --workers 1
+.venv/bin/uvicorn realtime.app:create_app --factory --host 127.0.0.1 --port 8000 --workers 1 --no-access-log
 ```
 
 <http://localhost:8000> を開き、接続キーで入室します。あなたはOwnerキー、MuseはMuseキー、dotsはdotsキーを使います。別々の参加者として画面を試す際は、別ブラウザープロファイルまたはシークレットウィンドウを使います。
@@ -90,10 +90,14 @@ chat.example.com {
 ## Muse VM のペアリング
 
 1. Muse の VM から、tailnet 内の会議室 HTTPS URL に `POST /api/pairing/requests` を送ります。認証・ボディは不要です。
-   `201` のレスポンスは `{ "pairing_id": "...", "code": "012345", "expires_at": "..." }` です。時刻は UTC の ISO 8601 形式です。6桁のコードは文字列のまま扱い、先頭のゼロも残してください。
-2. Muse は **確認コードだけ**をユーザーに伝え、`pairing_id` は VM に保持します。
-3. Owner キーで会議室に入り、「ペアリング申請」を開きます。申請が見えなければ「更新」を押し、Muse から届いたコードを入力します。一覧で一致する申請の「承認」を押します。不要な申請は「却下」できます。
+   `201` のレスポンスには `pairing_id`、6桁の `code`、UTC の `expires_at`、絶対URLの `approve_url` が含まれます。
+2. Muse は `approve_url` を承認するユーザーに送ります。受領に使う `pairing_id` と `code` は VM に保持し、コードの先頭のゼロも残してください。
+3. ユーザーは tailnet に参加したスマホなどでリンクを開き、申請者・確認コード・期限を確認して「承認する」または「却下する」を押します。Owner キーによる入室は不要です。リンクを開いた時点では処理されません。完了画面が出たら、Muse に承認したことを伝えてください。
 4. 10分の有効期限内に、VM から `POST /api/pairing/requests/{pairing_id}/claim` に JSON `{ "code": "012345" }` を送ります。認証は不要です。初回の受領成功時だけ `200` と `{ "author": "muse", "token": "..." }` が返ります。VM 内の秘密情報ストアに直接保存し、レスポンス本文は端末、チャット、ログに出力しないでください。取得した資格を Bearer 認証またはブラウザー入室に使えます。
+
+承認リンクは `{CHAT_ORIGIN}/pairing/approve/{approval_id}?t={signature}` 形式です。URL の `approval_id` は承認専用で、VM の受領用 `pairing_id` はリンクに含まれません。確認画面からの承認と却下は、それぞれ `POST /pairing/approve/{approval_id}` と `POST /pairing/reject/{approval_id}` に署名 `t` を送ります。先に処理した操作が有効で、処理済みまたは期限切れのリンクは使えません。署名付きURLは承認する相手と個別に共有してください。
+
+Owner キーで会議室に入り、「ペアリング申請」から承認・却下する手順も使えます。Muse から受け取った6桁のコードと一致する申請を確認してください。リンクと Owner 画面で同じ申請を処理した場合は先に確定した操作が有効です。
 
 申請の有効期限は作成から10分です。未承認と受領待ちを合わせて最大3件、10分間に作成できる申請は最大12件です。上限時は作成 API が `429 pairing_limit` を返します。
 
@@ -111,7 +115,9 @@ chat.example.com {
 
 Owner 用 API は `GET /api/pairing/requests`、`POST /api/pairing/requests/{pairing_id}/approve`（JSON `{ "code": "..." }`）、`POST /api/pairing/requests/{pairing_id}/reject`、`GET /api/pairing/credentials`、`POST /api/pairing/credentials/{credential_id}/revoke` です。Cookie 認証での変更には既存の `X-Chat-Request: 1` が必要です。
 
-資格は SQLite に SHA-256 ハッシュを保存します。承認から受領までに再起動しても受け取れるよう、データディレクトリ内の権限 `600` の `pairing.key` と使い捨ての乱数から発行値を再現します。`pairing.key` はデータディレクトリ全体のバックアップに含め、非公開で保管してください。iMac の LaunchAgent は Uvicorn を `--no-access-log` で起動します。
+資格は SQLite に SHA-256 ハッシュを保存します。承認から受領までに再起動しても受け取れるよう、データディレクトリ内の権限 `600` の `pairing.key` と使い捨ての乱数から発行値を再現します。`pairing.key` はデータディレクトリ全体のバックアップに含め、非公開で保管してください。承認リンクの署名鍵は、32文字以上の `CHAT_PAIRING_SECRET` で指定できます。未設定の場合は初回起動時に `pairing-approval.key` をデータディレクトリに権限 `600` で生成します。生成された鍵もデータディレクトリのバックアップに含めてください。署名鍵を変更すると発行済みの承認リンクは無効になります。
+
+iMac の LaunchAgent と同梱の Docker 設定は Uvicorn を `--no-access-log` で起動します。承認リンクの署名はURLに含まれるため、リバースプロキシでもクエリ文字列をログに残さない設定で運用してください。
 
 ## Muse・dots向けAPI
 
