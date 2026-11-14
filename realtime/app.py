@@ -39,10 +39,15 @@ class Settings:
     @classmethod
     def from_env(cls):
         origin = os.environ.get("CHAT_ORIGIN", "http://localhost:8000").rstrip("/")
-        parts = urlsplit(origin)
+        try:
+            parts = urlsplit(origin)
+            port = parts.port
+        except ValueError as exc:
+            raise RuntimeError("CHAT_ORIGIN has an invalid host or port") from exc
         if (
             parts.scheme not in ("http", "https")
             or not parts.netloc
+            or not parts.hostname
             or parts.path
             or parts.query
             or parts.fragment
@@ -51,6 +56,13 @@ class Settings:
             raise RuntimeError(
                 "CHAT_ORIGIN must be an http(s) origin, e.g. https://chat.example.com"
             )
+        # Match the origin browsers send, including case and omitted default ports.
+        host = parts.hostname.encode("idna").decode("ascii")
+        if ":" in host:
+            host = f"[{host}]"
+        if port is not None and port != {"http": 80, "https": 443}[parts.scheme]:
+            host = f"{host}:{port}"
+        origin = f"{parts.scheme}://{host}"
         tokens = {
             name: os.environ.get(f"CHAT_{name.upper()}_TOKEN", "") for name in LABELS
         }

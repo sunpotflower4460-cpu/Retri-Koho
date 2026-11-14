@@ -152,9 +152,9 @@ function addMessages(messages, older = false) {
   else if (messages.length) $("jump-latest").hidden = false;
 }
 
-async function enterRoom(me) {
+async function enterRoom(me, generation) {
+  if (state.generation !== generation) return;
   state.me = me;
-  const generation = ++state.generation;
   const history = await api("/api/messages");
   if (state.generation !== generation) return;
   $("login-panel").hidden = true;
@@ -196,6 +196,7 @@ async function enterRoom(me) {
 
 $("login-form").addEventListener("submit", async (event) => {
   event.preventDefault();
+  const generation = ++state.generation;
   $("login-error").textContent = "";
   $("login-button").disabled = true;
   try {
@@ -205,9 +206,10 @@ $("login-form").addEventListener("submit", async (event) => {
       body: JSON.stringify({ token: $("token").value.trim() }),
     });
     $("token").value = "";
-    await enterRoom(me);
+    await enterRoom(me, generation);
   } catch (error) {
-    $("login-error").textContent = error.message;
+    if (generation === state.generation)
+      $("login-error").textContent = error.message;
   } finally {
     $("login-button").disabled = false;
   }
@@ -366,10 +368,10 @@ $("compose").addEventListener("submit", async (event) => {
 });
 
 (async () => {
-  const generation = state.generation;
+  const generation = ++state.generation;
   try {
     const me = await api("/api/me");
-    if (generation === state.generation) await enterRoom(me);
+    if (generation === state.generation) await enterRoom(me, generation);
   } catch (error) {
     if (generation !== state.generation) return;
     showLogin();

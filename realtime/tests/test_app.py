@@ -68,6 +68,48 @@ def test_history_uploads_and_events_are_private(client):
     assert client.get("/healthz").json() == {"status": "ok"}
 
 
+@pytest.mark.parametrize(
+    "configured, expected",
+    [
+        ("HTTPS://CHAT.EXAMPLE.COM:443/", "https://chat.example.com"),
+        ("https://CHAT.EXAMPLE.COM:8443", "https://chat.example.com:8443"),
+        ("HTTP://LOCALHOST:80", "http://localhost"),
+        ("http://[::1]:8000", "http://[::1]:8000"),
+    ],
+)
+def test_browser_origin_and_secure_cookie(monkeypatch, tmp_path, configured, expected):
+    monkeypatch.setenv("CHAT_ORIGIN", configured)
+    monkeypatch.setenv("CHAT_DATA_DIR", str(tmp_path))
+    for name, letter in (("OWNER", "o"), ("MUSE", "m"), ("DOTS", "d")):
+        monkeypatch.setenv(f"CHAT_{name}_TOKEN", letter * 40)
+    settings = Settings.from_env()
+    assert settings.origin == expected
+    # Starlette's test transport cannot parse an IPv6 URL; Origin still carries it.
+    base_url = (
+        "https://testserver" if expected.startswith("https:") else "http://testserver"
+    )
+    with TestClient(create_app(settings), base_url=base_url) as client:
+        response = client.post(
+            "/api/login",
+            headers={"X-Chat-Request": "1", "Origin": expected},
+            json={"token": settings.tokens["owner"]},
+        )
+        assert response.status_code == 200
+        assert ("Secure" in response.headers["set-cookie"]) == expected.startswith(
+            "https:"
+        )
+        assert client.get("/api/me").json()["author"] == "owner"
+
+
+@pytest.mark.parametrize(
+    "origin", ["https://example.com:bad", "https://example.com:65536"]
+)
+def test_invalid_origin_port_is_rejected(monkeypatch, origin):
+    monkeypatch.setenv("CHAT_ORIGIN", origin)
+    with pytest.raises(RuntimeError, match="invalid host or port"):
+        Settings.from_env()
+
+
 def test_login_logout_and_csrf(client, settings):
     assert (
         client.post("/api/login", json={"token": settings.tokens["owner"]}).status_code
