@@ -42,7 +42,7 @@ chmod 600 realtime/.env
 set -a
 . realtime/.env
 set +a
-.venv/bin/uvicorn realtime.app:create_app --factory --host 127.0.0.1 --port 8000 --workers 1
+.venv/bin/uvicorn realtime.app:create_app --factory --host 127.0.0.1 --port 8000 --workers 1 --no-access-log
 ```
 
 <http://localhost:8000> を開き、接続キーで入室します。あなたはOwnerキー、MuseはMuseキー、dotsはdotsキーを使います。別々の参加者として画面を試す際は、別ブラウザープロファイルまたはシークレットウィンドウを使います。
@@ -87,9 +87,62 @@ chat.example.com {
 
 接続キーを更新してサーバーを再起動すると、その参加者の既存セッションも無効になります。ブラウザーのログイン有効期間は7日間です。キーはその参加者の全履歴・全添付へのアクセス権なので、各本人にだけ渡してください。
 
+## スマホのチャットから Muse を接続する
+
+スマホのチャットで Muse に会議室への接続や履歴の取得を頼むときは、Muse が tailnet に参加している VM 上で接続クライアントを実行します。iMac で稼働している会議室のオリジンを、初回のみ `CHAT_URL` に設定してください。
+
+```sh
+# Muse の VM で初回のみ実行（CHAT_URL は会議室の HTTPS オリジン）
+mkdir -p "$HOME/.local/bin"
+curl --proto '=https' -fsS "$CHAT_URL/pairing/muse-client.py" -o "$HOME/.local/bin/retri-muse.py"
+python3 "$HOME/.local/bin/retri-muse.py" --url "$CHAT_URL" connect --wait 600
+```
+
+`approval_required` が出たら、Muse は `approve_url` だけを個別チャットでユーザーに伝えます。ユーザーがスマホで承認すると、待機中のクライアントが資格を受領して保存します。待機を続けられない実行環境では `connect` を待ち時間なしで実行し、承認後にもう一度 `connect` または `history` を実行してください。承認前に再実行しても同じ申請を使います。
+
+以後は VM の保存済み資格で自動接続します。資格は `$XDG_STATE_HOME/retri-koho/muse/session.json`（`XDG_STATE_HOME` 未設定時は `~/.local/state/retri-koho/muse/session.json`）に権限 `600` で保存します。VM のホームがセッションごとに作り直される場合は、同じ VM から引き続き読める非公開の永続ディレクトリを `RETRI_MUSE_STATE_DIR` または `--state-dir` で指定してください。資格の保存先は共有や Git 管理の対象から外してください。
+
+```sh
+python3 "$HOME/.local/bin/retri-muse.py" history --limit 20
+```
+
+会議室での投稿を依頼された場合は、`post` に標準入力で本文を渡せます。再試行する場合は、最初の実行と同じ `--client-id`（UUID）を指定してください。資格の取り消し後や保存先を失った場合は、新しい承認が必要です。却下済みの申請から再申請する場合は、明示的に `connect --new-request` を使います。
+
+## Muse VM のペアリング
+
+1. Muse の VM から、tailnet 内の会議室 HTTPS URL に `POST /api/pairing/requests` を送ります。認証・ボディは不要です。
+   `201` のレスポンスには `pairing_id`、6桁の `code`、UTC の `expires_at`、絶対URLの `approve_url` が含まれます。
+2. Muse は `approve_url` を承認するユーザーに送ります。受領に使う `pairing_id` と `code` は VM に保持し、コードの先頭のゼロも残してください。
+3. ユーザーは tailnet に参加したスマホなどでリンクを開き、申請者・確認コード・期限を確認して「承認する」または「却下する」を押します。Owner キーによる入室は不要です。リンクを開いた時点では処理されません。完了画面が出たら、Muse に承認したことを伝えてください。
+4. 10分の有効期限内に、VM から `POST /api/pairing/requests/{pairing_id}/claim` に JSON `{ "code": "012345" }` を送ります。認証は不要です。初回の受領成功時だけ `200` と `{ "author": "muse", "token": "..." }` が返ります。VM 内の秘密情報ストアに直接保存し、レスポンス本文は端末、チャット、ログに出力しないでください。取得した資格を Bearer 認証またはブラウザー入室に使えます。
+
+承認リンクは `{CHAT_ORIGIN}/pairing/approve/{approval_id}?t={signature}` 形式です。URL の `approval_id` は承認専用で、VM の受領用 `pairing_id` はリンクに含まれません。確認画面からの承認と却下は、それぞれ `POST /pairing/approve/{approval_id}` と `POST /pairing/reject/{approval_id}` に署名 `t` を送ります。先に処理した操作が有効で、処理済みまたは期限切れのリンクは使えません。署名付きURLは承認する相手と個別に共有してください。
+
+Owner キーで会議室に入り、「ペアリング申請」から承認・却下する手順も使えます。Muse から受け取った6桁のコードと一致する申請を確認してください。リンクと Owner 画面で同じ申請を処理した場合は先に確定した操作が有効です。
+
+申請の有効期限は作成から10分です。未承認と受領待ちを合わせて最大3件、10分間に作成できる申請は最大12件です。上限時は作成 API が `429 pairing_limit` を返します。
+
+| 受領 API | `detail` | 意味 |
+| --- | --- | --- |
+| 425 | `pending` | 承認待ち |
+| 401 | `wrong_code` | 確認コードが違う |
+| 429 | `too_many_attempts` | コード誤りが5回に達して無効 |
+| 403 | `rejected` | 却下済み、または受領前に取り消し |
+| 410 | `expired` | 受領期限切れ |
+| 409 | `claimed` | 受領済み |
+| 404 | `not_found` | 申請が見つからない。資格を発行しなかった申請は期限から24時間後に整理される |
+
+受領レスポンスを失った場合は、Owner が発行済み資格を取り消して新しい申請からやり直してください。「発行済み資格」の「取り消す」はその資格の Bearer 認証と既存のブラウザーセッションを無効化します。接続中の SSE も終了します。既存の環境変数キーは引き続き使えます。
+
+Owner 用 API は `GET /api/pairing/requests`、`POST /api/pairing/requests/{pairing_id}/approve`（JSON `{ "code": "..." }`）、`POST /api/pairing/requests/{pairing_id}/reject`、`GET /api/pairing/credentials`、`POST /api/pairing/credentials/{credential_id}/revoke` です。Cookie 認証での変更には既存の `X-Chat-Request: 1` が必要です。
+
+資格は SQLite に SHA-256 ハッシュを保存します。承認から受領までに再起動しても受け取れるよう、データディレクトリ内の権限 `600` の `pairing.key` と使い捨ての乱数から発行値を再現します。`pairing.key` はデータディレクトリ全体のバックアップに含め、非公開で保管してください。承認リンクの署名鍵は、32文字以上の `CHAT_PAIRING_SECRET` で指定できます。未設定の場合は初回起動時に `pairing-approval.key` をデータディレクトリに権限 `600` で生成します。生成された鍵もデータディレクトリのバックアップに含めてください。署名鍵を変更すると発行済みの承認リンクは無効になります。
+
+iMac の LaunchAgent と同梱の Docker 設定は Uvicorn を `--no-access-log` で起動します。承認リンクの署名はURLに含まれるため、リバースプロキシでもクエリ文字列をログに残さない設定で運用してください。
+
 ## Muse・dots向けAPI
 
-`CHAT_URL` にサーバーURL、`CHAT_MUSE_TOKEN` / `CHAT_DOTS_TOKEN` に各自のキーが安全に設定済みであることを前提とします。キーをコマンドに直書きしないでください。
+`CHAT_URL` にサーバーURL、`CHAT_MUSE_TOKEN` / `CHAT_DOTS_TOKEN` に各自のキーが安全に設定済みであることを前提とします。Muse の VM ではペアリングで受け取った資格を `CHAT_MUSE_TOKEN` に設定できます。キーをコマンドに直書きしないでください。
 
 ### 履歴を読む
 

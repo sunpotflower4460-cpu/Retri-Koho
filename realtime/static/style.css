@@ -285,6 +285,149 @@ textarea:focus {
   margin: 0;
   line-height: 1.6;
 }
+.pairing-review {
+  width: min(100% - 32px, 32rem);
+  margin: clamp(24px, 8vw, 72px) auto;
+  padding: 0;
+}
+.pairing-review-card {
+  padding: clamp(20px, 6vw, 36px);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--paper);
+  box-shadow: 0 8px 30px #1a342008;
+}
+.pairing-review-brand {
+  color: var(--green);
+  font: 600 24px Georgia, serif;
+}
+.pairing-review h1 {
+  margin: 18px 0;
+  font-size: clamp(19px, 5vw, 25px);
+  line-height: 1.4;
+}
+.pairing-review p {
+  margin: 0;
+  line-height: 1.6;
+}
+.pairing-review-details {
+  margin: 0 0 24px;
+}
+.pairing-review-details > div {
+  display: grid;
+  grid-template-columns: 5em minmax(0, 1fr);
+  align-items: baseline;
+  gap: 8px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--line);
+}
+.pairing-review-details dt {
+  color: #596b61;
+  font-size: 13px;
+}
+.pairing-review-details dd {
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+}
+.pairing-review-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+.pairing-review-actions button {
+  min-height: 44px;
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  color: var(--green);
+  background: var(--paper);
+}
+.pairing-review-actions .pairing-review-approve {
+  color: white;
+  background: var(--green);
+  border-color: var(--green);
+}
+.pairing {
+  padding: 12px clamp(16px, 3vw, 28px);
+  border-bottom: 1px solid var(--line);
+  font-size: 13px;
+}
+.pairing summary {
+  cursor: pointer;
+  width: fit-content;
+  font-weight: 600;
+}
+.pairing summary:focus-visible,
+.pairing input:focus-visible {
+  outline: 3px solid #ab6839;
+  outline-offset: 3px;
+}
+.pairing-content {
+  padding: 10px 0 4px;
+}
+.pairing-heading,
+.pairing-row,
+.pairing-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+}
+.pairing-heading,
+.pairing-row {
+  justify-content: space-between;
+}
+.pairing-heading p {
+  margin: 0;
+}
+.pairing h2 {
+  font-size: 13px;
+  margin: 18px 0 8px;
+}
+.pairing button,
+.pairing input {
+  min-height: 36px;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  color: var(--green);
+  background: var(--paper);
+  padding: 5px 10px;
+}
+.pairing .pairing-approve {
+  color: white;
+  background: var(--green);
+  border-color: var(--green);
+}
+#pairing-confirmation {
+  margin-top: 10px;
+}
+#pairing-code {
+  width: 9ch;
+  margin-left: 8px;
+  font-variant-numeric: tabular-nums;
+}
+.pairing-list {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+}
+.pairing-row {
+  padding: 8px 0;
+  border-top: 1px solid var(--line);
+}
+.pairing-row .pairing-meta {
+  display: block;
+  margin-top: 3px;
+}
+.pairing-meta {
+  color: #596b61;
+  font-size: 12px;
+}
+.pairing-number {
+  font-size: 16px;
+  letter-spacing: 0.1em;
+  font-variant-numeric: tabular-nums;
+}
 .timeline {
   height: min(48vh, 480px);
   min-height: 240px;

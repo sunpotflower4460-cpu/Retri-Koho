@@ -1,6 +1,7 @@
 "use strict";
 
 const $ = (id) => document.getElementById(id);
+const pairingPanel = $("pairing");
 const labels = { owner: "あなた", muse: "Muse", dots: "dots" };
 const initials = { owner: "あ", muse: "M", dots: "d" };
 const state = {
@@ -55,6 +56,15 @@ function showLogin() {
   $("files").value = "";
   $("send-error").textContent = "";
   $("jump-latest").hidden = true;
+  if (pairingPanel) {
+    pairingPanel.hidden = true;
+    pairingPanel.open = false;
+    $("pairing-confirmation").hidden = true;
+    $("pairing-code").value = "";
+    $("pairing-requests").replaceChildren();
+    $("pairing-credentials").replaceChildren();
+    $("pairing-error").textContent = "";
+  }
   $("room").hidden = true;
   $("login-panel").hidden = false;
 }
@@ -65,6 +75,121 @@ function node(tag, className, text) {
   if (text !== undefined) element.textContent = text;
   return element;
 }
+
+const pairingDate = new Intl.DateTimeFormat("ja-JP", {
+  dateStyle: "short",
+  timeStyle: "medium",
+});
+const credentialStatus = {
+  unclaimed: "受領待ち",
+  active: "有効",
+  expired: "受領期限切れ",
+  invalidated: "無効",
+  revoked: "取り消し済み",
+};
+
+function pairingButton(label, action, primary = false) {
+  const button = node("button", primary ? "pairing-approve" : "", label);
+  button.type = "button";
+  button.addEventListener("click", () => refreshPairing(action));
+  return button;
+}
+
+function pairingRequestRow(item) {
+  const path = "/api/pairing/requests/" + encodeURIComponent(item.pairing_id);
+  const created = pairingDate.format(new Date(item.created_at));
+  const expires = pairingDate.format(new Date(item.expires_at));
+  const info = node("div");
+  info.append(
+    node("strong", "pairing-number", item.code),
+    node("span", "pairing-meta", `作成 ${created} ／ 期限 ${expires}`),
+  );
+  const approve = async () => {
+    const input = $("pairing-code");
+    const code = input.value.trim();
+    if (!/^[0-9]{6}$/.test(code)) {
+      input.focus();
+      throw new Error("Muse から届いた6桁の確認コードを入力してください。");
+    }
+    await api(path + "/approve", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ code }),
+    });
+  };
+  const actions = node("div", "pairing-actions");
+  actions.append(
+    pairingButton("承認", approve, true),
+    pairingButton("却下", () => api(path + "/reject", { method: "POST" })),
+  );
+  const row = node("li", "pairing-row");
+  row.append(info, actions);
+  return row;
+}
+
+function pairingCredentialRow(item) {
+  const issued = pairingDate.format(new Date(item.issued_at));
+  const info = node("div");
+  info.append(
+    node("strong", "", "Muse · " + item.credential_id.slice(-8)),
+    node("span", "pairing-meta", `発行 ${issued} ／ ${credentialStatus[item.status]}`),
+  );
+  const row = node("li", "pairing-row");
+  row.append(info);
+  if (item.status === "active" || item.status === "unclaimed") {
+    const path = "/api/pairing/credentials/" + encodeURIComponent(item.credential_id);
+    row.append(
+      pairingButton("取り消す", () => api(path + "/revoke", { method: "POST" })),
+    );
+  }
+  return row;
+}
+
+function renderPairing(requests, credentials) {
+  $("pairing-confirmation").hidden = requests.length === 0;
+  const requestsList = $("pairing-requests");
+  const credentialsList = $("pairing-credentials");
+  requestsList.replaceChildren(...requests.map(pairingRequestRow));
+  credentialsList.replaceChildren(...credentials.map(pairingCredentialRow));
+  if (!requests.length) {
+    requestsList.append(node("li", "pairing-meta", "承認待ちの申請はありません。"));
+  }
+  if (!credentials.length) {
+    credentialsList.append(node("li", "pairing-meta", "発行済みの資格はありません。"));
+  }
+}
+
+async function refreshPairing(action) {
+  const refresh = $("pairing-refresh");
+  if (state.me?.author !== "owner" || refresh.disabled) return;
+  const generation = state.generation;
+  const buttons = pairingPanel.querySelectorAll("button");
+  for (const button of buttons) button.disabled = true;
+  $("pairing-error").textContent = "";
+  try {
+    if (action) {
+      await action();
+      if (generation !== state.generation) return;
+      $("pairing-code").value = "";
+    }
+    const [requests, credentials] = await Promise.all([
+      api("/api/pairing/requests"),
+      api("/api/pairing/credentials"),
+    ]);
+    if (generation === state.generation) {
+      renderPairing(requests.requests, credentials.credentials);
+    }
+  } catch (error) {
+    if (generation === state.generation) $("pairing-error").textContent = error.message;
+  } finally {
+    for (const button of buttons) button.disabled = false;
+  }
+}
+
+pairingPanel?.addEventListener("toggle", () => {
+  if (pairingPanel.open) refreshPairing();
+});
+$("pairing-refresh")?.addEventListener("click", () => refreshPairing());
 
 function renderMessage(message) {
   const article = node(
@@ -159,6 +284,7 @@ async function enterRoom(me, generation) {
   if (state.generation !== generation) return;
   $("login-panel").hidden = true;
   $("room").hidden = false;
+  if (pairingPanel) pairingPanel.hidden = me.author !== "owner";
   $("identity").textContent = `${me.label} として参加中`;
   $("messages").replaceChildren();
   state.messages.clear();

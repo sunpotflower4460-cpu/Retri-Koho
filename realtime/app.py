@@ -1,7 +1,6 @@
 """Private, persistent Muse / dots room. Run with one Uvicorn worker."""
 
 import asyncio
-import hashlib
 import json
 import os
 import re
@@ -15,10 +14,20 @@ from urllib.parse import urlsplit
 from uuid import UUID, uuid4
 
 from fastapi import FastAPI, HTTPException, Request
+from fastapi.exception_handlers import request_validation_exception_handler
+from fastapi.exceptions import RequestValidationError
 from fastapi.responses import FileResponse, JSONResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 from starlette.datastructures import UploadFile
+
+from .pairing import (
+    PAIRING_LINK_POST,
+    PUBLIC_PAIRING_POST,
+    digest,
+    issued_muse,
+    register_pairing,
+)
 
 HERE = Path(__file__).resolve().parent
 MAX_FILE_BYTES = 10 * 1024 * 1024
@@ -113,10 +122,6 @@ class BodyLimit:
         await self.app(scope, limited_receive, send)
 
 
-def digest(value):
-    return hashlib.sha256(value.encode()).hexdigest()
-
-
 def image_type(header):
     if header.startswith(b"\x89PNG\r\n\x1a\n"):
         return "image/png"
@@ -189,14 +194,28 @@ def create_app(settings=None):
     async def body_too_large(request, exc):
         return JSONResponse({"detail": "添付の合計は20 MBまでです。"}, 413)
 
+    @app.exception_handler(RequestValidationError)
+    async def validation_error(request, exc):
+        # Validation errors should not echo a submitted key or confirmation code.
+        if request.url.path == "/api/login" or request.url.path.startswith("/api/pairing/"):
+            return JSONResponse({"detail": "入力内容を確認してください。"}, 422)
+        return await request_validation_exception_handler(request, exc)
+
     @app.middleware("http")
     async def protect(request, call_next):
         if request.method not in ("GET", "HEAD", "OPTIONS"):
             origin = request.headers.get("origin")
-            if origin and origin != settings.origin:
+            signed_action = request.method == "POST" and PAIRING_LINK_POST.fullmatch(
+                request.url.path
+            )
+            # A native form can send Origin: null under Referrer-Policy: no-referrer.
+            # Only the signed pairing capability authorizes these two actions.
+            if origin and origin != settings.origin and not (signed_action and origin == "null"):
                 return JSONResponse({"detail": "別のサイトからは送信できません。"}, 403)
             if (
-                not request.headers.get("authorization", "").startswith("Bearer ")
+                not signed_action
+                and not PUBLIC_PAIRING_POST.fullmatch(request.url.path)
+                and not request.headers.get("authorization", "").startswith("Bearer ")
                 and request.headers.get("x-chat-request") != "1"
             ):
                 return JSONResponse({"detail": "X-Chat-Request header required"}, 403)
@@ -208,18 +227,30 @@ def create_app(settings=None):
             "img-src 'self' blob:; connect-src 'self'; object-src 'none'; "
             "base-uri 'none'; frame-ancestors 'none'; form-action 'self'"
         )
-        if request.url.path.startswith("/api/"):
+        if request.url.path.startswith(("/api/", "/pairing/")):
             response.headers["Cache-Control"] = "no-store"
+        if request.url.path.startswith("/pairing/"):
+            response.headers["X-Robots-Tag"] = "noindex, nofollow, nosnippet"
+        elif request.url.path in ("/", "/index.html", "/app.js", "/style.css"):
+            response.headers["Cache-Control"] = "no-cache"
         return response
+
+    def credential_author(conn, token_hash):
+        for author, token in settings.tokens.items():
+            if secrets.compare_digest(digest(token), token_hash):
+                return author
+        if issued_muse(conn, token_hash):
+            return "muse"
+        return None
 
     def identity(request):
         authorization = request.headers.get("authorization", "")
         if authorization:
             if authorization.startswith("Bearer "):
-                value = authorization[7:]
-                for author, token in settings.tokens.items():
-                    if secrets.compare_digest(value.encode(), token.encode()):
-                        return author
+                with db() as conn:
+                    author = credential_author(conn, digest(authorization[7:]))
+                if author:
+                    return author
             raise HTTPException(401, "接続キーを確認してください。")
         session = request.cookies.get(COOKIE, "")
         if session:
@@ -228,11 +259,13 @@ def create_app(settings=None):
                     "SELECT * FROM sessions WHERE hash = ? AND expires_at > ?",
                     (digest(session), time.time()),
                 ).fetchone()
-            if row and secrets.compare_digest(
-                row["token_hash"], digest(settings.tokens.get(row["author"], ""))
-            ):
-                return row["author"]
+                if row and credential_author(conn, row["token_hash"]) == row["author"]:
+                    return row["author"]
         raise HTTPException(401, "接続キーで入室してください。")
+
+    def require_owner(request):
+        if identity(request) != "owner":
+            raise HTTPException(403, "ペアリングを管理できるのは Owner だけです。")
 
     def message_rows(conn, rows):
         result = []
@@ -253,6 +286,12 @@ def create_app(settings=None):
     async def health():
         return {"status": "ok"}
 
+    @app.get("/pairing/muse-client.py")
+    async def download_muse_client():
+        return FileResponse(
+            HERE / "muse_client.py", media_type="text/plain", filename="retri-muse.py"
+        )
+
     class Login(BaseModel):
         token: str = Field(min_length=1, max_length=512)
 
@@ -265,18 +304,12 @@ def create_app(settings=None):
                 429, "少し待ってから再度お試しください。", headers={"Retry-After": "60"}
             )
         login_attempts.append(now)
-        author = next(
-            (
-                name
-                for name, token in settings.tokens.items()
-                if secrets.compare_digest(body.token.encode(), token.encode())
-            ),
-            None,
-        )
-        if not author:
-            raise HTTPException(401, "接続キーを確認してください。")
+        token_hash = digest(body.token)
         value = secrets.token_urlsafe(32)
         with db() as conn:
+            author = credential_author(conn, token_hash)
+            if not author:
+                raise HTTPException(401, "接続キーを確認してください。")
             conn.execute("DELETE FROM sessions WHERE expires_at <= ?", (now,))
             old = request.cookies.get(COOKIE)
             if old:
@@ -286,7 +319,7 @@ def create_app(settings=None):
                 (
                     digest(value),
                     author,
-                    digest(settings.tokens[author]),
+                    token_hash,
                     now + SESSION_SECONDS,
                 ),
             )
@@ -505,5 +538,6 @@ def create_app(settings=None):
             headers={"X-Accel-Buffering": "no", "Cache-Control": "no-store"},
         )
 
+    register_pairing(app, db, require_owner, changed, settings.data_dir, settings.origin)
     app.mount("/", StaticFiles(directory=HERE / "static", html=True), name="ui")
     return app
