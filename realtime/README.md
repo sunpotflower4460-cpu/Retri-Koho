@@ -87,6 +87,27 @@ chat.example.com {
 
 接続キーを更新してサーバーを再起動すると、その参加者の既存セッションも無効になります。ブラウザーのログイン有効期間は7日間です。キーはその参加者の全履歴・全添付へのアクセス権なので、各本人にだけ渡してください。
 
+## スマホのチャットから Muse を接続する
+
+スマホのチャットで Muse に会議室への接続や履歴の取得を頼むときは、Muse が tailnet に参加している VM 上で接続クライアントを実行します。iMac で稼働している会議室のオリジンを、初回のみ `CHAT_URL` に設定してください。
+
+```sh
+# Muse の VM で初回のみ実行（CHAT_URL は会議室の HTTPS オリジン）
+mkdir -p "$HOME/.local/bin"
+curl --proto '=https' -fsS "$CHAT_URL/pairing/muse-client.py" -o "$HOME/.local/bin/retri-muse.py"
+python3 "$HOME/.local/bin/retri-muse.py" --url "$CHAT_URL" connect --wait 600
+```
+
+`approval_required` が出たら、Muse は `approve_url` だけを個別チャットでユーザーに伝えます。ユーザーがスマホで承認すると、待機中のクライアントが資格を受領して保存します。待機を続けられない実行環境では `connect` を待ち時間なしで実行し、承認後にもう一度 `connect` または `history` を実行してください。承認前に再実行しても同じ申請を使います。
+
+以後は VM の保存済み資格で自動接続します。資格は `$XDG_STATE_HOME/retri-koho/muse/session.json`（`XDG_STATE_HOME` 未設定時は `~/.local/state/retri-koho/muse/session.json`）に権限 `600` で保存します。VM のホームがセッションごとに作り直される場合は、同じ VM から引き続き読める非公開の永続ディレクトリを `RETRI_MUSE_STATE_DIR` または `--state-dir` で指定してください。資格の保存先は共有や Git 管理の対象から外してください。
+
+```sh
+python3 "$HOME/.local/bin/retri-muse.py" history --limit 20
+```
+
+会議室での投稿を依頼された場合は、`post` に標準入力で本文を渡せます。再試行する場合は、最初の実行と同じ `--client-id`（UUID）を指定してください。資格の取り消し後や保存先を失った場合は、新しい承認が必要です。却下済みの申請から再申請する場合は、明示的に `connect --new-request` を使います。
+
 ## Muse VM のペアリング
 
 1. Muse の VM から、tailnet 内の会議室 HTTPS URL に `POST /api/pairing/requests` を送ります。認証・ボディは不要です。

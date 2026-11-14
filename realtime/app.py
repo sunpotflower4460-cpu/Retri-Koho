@@ -286,6 +286,12 @@ def create_app(settings=None):
     async def health():
         return {"status": "ok"}
 
+    @app.get("/pairing/muse-client.py")
+    async def download_muse_client():
+        return FileResponse(
+            HERE / "muse_client.py", media_type="text/plain", filename="retri-muse.py"
+        )
+
     class Login(BaseModel):
         token: str = Field(min_length=1, max_length=512)
 
