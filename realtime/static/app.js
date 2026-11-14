@@ -1,6 +1,7 @@
 "use strict";
 
 const $ = (id) => document.getElementById(id);
+const pairingPanel = $("pairing");
 const labels = { owner: "あなた", muse: "Muse", dots: "dots" };
 const initials = { owner: "あ", muse: "M", dots: "d" };
 const state = {
@@ -55,13 +56,15 @@ function showLogin() {
   $("files").value = "";
   $("send-error").textContent = "";
   $("jump-latest").hidden = true;
-  $("pairing").hidden = true;
-  $("pairing").open = false;
-  $("pairing-confirmation").hidden = true;
-  $("pairing-code").value = "";
-  $("pairing-requests").replaceChildren();
-  $("pairing-credentials").replaceChildren();
-  $("pairing-error").textContent = "";
+  if (pairingPanel) {
+    pairingPanel.hidden = true;
+    pairingPanel.open = false;
+    $("pairing-confirmation").hidden = true;
+    $("pairing-code").value = "";
+    $("pairing-requests").replaceChildren();
+    $("pairing-credentials").replaceChildren();
+    $("pairing-error").textContent = "";
+  }
   $("room").hidden = true;
   $("login-panel").hidden = false;
 }
@@ -160,7 +163,7 @@ async function refreshPairing(action) {
   const refresh = $("pairing-refresh");
   if (state.me?.author !== "owner" || refresh.disabled) return;
   const generation = state.generation;
-  const buttons = $("pairing").querySelectorAll("button");
+  const buttons = pairingPanel.querySelectorAll("button");
   for (const button of buttons) button.disabled = true;
   $("pairing-error").textContent = "";
   try {
@@ -183,10 +186,10 @@ async function refreshPairing(action) {
   }
 }
 
-$("pairing").addEventListener("toggle", () => {
-  if ($("pairing").open) refreshPairing();
+pairingPanel?.addEventListener("toggle", () => {
+  if (pairingPanel.open) refreshPairing();
 });
-$("pairing-refresh").addEventListener("click", () => refreshPairing());
+$("pairing-refresh")?.addEventListener("click", () => refreshPairing());
 
 function renderMessage(message) {
   const article = node(
@@ -281,7 +284,7 @@ async function enterRoom(me, generation) {
   if (state.generation !== generation) return;
   $("login-panel").hidden = true;
   $("room").hidden = false;
-  $("pairing").hidden = me.author !== "owner";
+  if (pairingPanel) pairingPanel.hidden = me.author !== "owner";
   $("identity").textContent = `${me.label} として参加中`;
   $("messages").replaceChildren();
   state.messages.clear();

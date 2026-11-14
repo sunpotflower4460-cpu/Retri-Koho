@@ -217,6 +217,8 @@ def create_app(settings=None):
         )
         if request.url.path.startswith("/api/"):
             response.headers["Cache-Control"] = "no-store"
+        elif request.url.path in ("/", "/index.html", "/app.js", "/style.css"):
+            response.headers["Cache-Control"] = "no-cache"
         return response
 
     def credential_author(conn, token_hash):
