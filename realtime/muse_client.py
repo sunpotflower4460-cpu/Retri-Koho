@@ -33,7 +33,21 @@ class NoRedirects(HTTPRedirectHandler):
         return None
 
 
-OPENER = build_opener(ProxyHandler({}), NoRedirects())
+def make_opener():
+    # Never inherit unrelated shell proxy settings or follow credential-bearing redirects.
+    proxy = os.environ.get("RETRI_MUSE_PROXY", "").strip()
+    if proxy:
+        try:
+            parsed = urlsplit(proxy)
+            parsed.port
+        except ValueError:
+            raise ClientError("RETRI_MUSE_PROXY の形式を確認してください。") from None
+        if parsed.scheme not in ("http", "https") or not parsed.hostname or parsed.username or parsed.password or parsed.query or parsed.fragment or parsed.path not in ("", "/"):
+            raise ClientError("RETRI_MUSE_PROXY に認証情報を含まない HTTP(S) プロキシを指定してください。")
+    return build_opener(ProxyHandler({"http": proxy, "https": proxy} if proxy else {}), NoRedirects())
+
+
+OPENER = None
 
 
 def request_json(origin, path, *, token=None, body=None, form=None):
@@ -49,7 +63,7 @@ def request_json(origin, path, *, token=None, body=None, form=None):
         headers["Content-Type"] = "application/x-www-form-urlencoded"
     request = Request(origin + path, data=data, headers=headers)
     try:
-        with OPENER.open(request, timeout=10) as response:
+        with (OPENER or make_opener()).open(request, timeout=10) as response:
             return response.status, json.load(response)
     except HTTPError as error:
         with error:
@@ -243,6 +257,59 @@ def connect(store, url, wait, new_request):
         time.sleep(min(2, remaining))
 
 
+def watch(origin, token, after, seconds):
+    """Bounded SSE receive. Caller commits cursor only after processing emitted messages."""
+    deadline = time.monotonic() + seconds
+    cursor = after
+    failures = 0
+    while time.monotonic() < deadline:
+        request = Request(origin + f"/api/events?after={cursor}", headers={
+            "Accept": "text/event-stream", "Authorization": "Bearer " + token,
+            "Last-Event-ID": str(cursor),
+        })
+        try:
+            with (OPENER or make_opener()).open(request, timeout=min(10, max(0.1, deadline - time.monotonic()))) as response:
+                event, data = "", []
+                for raw in response:
+                    if time.monotonic() >= deadline:
+                        break
+                    if len(raw) > 131072:
+                        raise ClientError("会議室の新着応答が大きすぎます。")
+                    line = raw.decode("utf-8").rstrip("\r\n")
+                    if line.startswith("event:"):
+                        event = line[6:].strip()
+                    elif line.startswith("data:"):
+                        data.append(line[5:].lstrip())
+                    elif not line:
+                        if event == "session-expired":
+                            raise ClientError("Muse の認証が無効になりました。connect で接続し直してください。")
+                        if event == "message":
+                            try:
+                                message = json.loads("\n".join(data))
+                                identifier = message["id"]
+                                if type(identifier) is not int or identifier < 1:
+                                    raise ValueError()
+                            except (ValueError, KeyError, TypeError):
+                                raise ClientError("会議室の新着応答を読み込めません。") from None
+                            if identifier > cursor:
+                                emit({"status": "message", "message": message})
+                                cursor = identifier
+                                failures = 0
+                        event, data = "", []
+        except HTTPError as error:
+            code = error.code
+            error.close()
+            if code < 500 and code != 429:
+                raise ClientError(f"新着受信に失敗しました（HTTP {code}）。") from None
+        except (URLError, OSError, HTTPException):
+            pass
+        remaining = deadline - time.monotonic()
+        if remaining > 0:
+            failures += 1
+            time.sleep(min(remaining, 2 ** min(failures - 1, 4)))
+    emit({"status": "watch_complete", "after": cursor})
+
+
 def bounded_int(minimum, maximum):
     def parse(value):
         number = int(value)
@@ -266,9 +333,12 @@ def main():
     login.add_argument("--new-request", action="store_true", help="却下・無効・受領済みの申請から再申請します。")
     history = commands.add_parser("history", help="会議室の最近の発言を読みます。")
     history.add_argument("--limit", type=bounded_int(1, 100), default=20)
+    receiver = commands.add_parser("watch", help="新着を即時受信します。切断時は自動再接続します。")
+    receiver.add_argument("--after", type=bounded_int(0, 9223372036854775807), default=0)
+    receiver.add_argument("--seconds", type=bounded_int(1, 600), default=60)
     post = commands.add_parser("post", help="標準入力で受け取った文章を投稿します。")
     post.add_argument("--client-id", type=UUID, help="同じ投稿を再試行するときに指定するUUID。")
-    for command in (login, history, post):
+    for command in (login, history, post, receiver):
         command.add_argument("--wait", type=bounded_int(0, 600), default=0, help="承認を待つ最長秒数。")
     args = parser.parse_args()
 
@@ -280,6 +350,9 @@ def main():
         origin, token = connection
         if args.command == "connect":
             emit({"status": "connected", "author": "muse"})
+            return 0
+        if args.command == "watch":
+            watch(origin, token, args.after, args.seconds)
             return 0
         if args.command == "history":
             status, result = request_json(origin, f"/api/messages?limit={args.limit}", token=token)

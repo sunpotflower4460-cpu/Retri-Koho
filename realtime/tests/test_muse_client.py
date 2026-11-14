@@ -139,3 +139,36 @@ def test_muse_client_requires_an_explicit_retry_after_rejection(room, tmp_path):
     retried = invoke(helper, state, "connect", "--new-request")
     assert retried.returncode == 2
     assert json.loads(retried.stdout)["approve_url"] != approval["approve_url"]
+
+
+def test_watch_receives_new_messages_and_respects_cursor(room, tmp_path):
+    origin, http, helper = room
+    state = tmp_path / "private-watch"
+    requested = invoke(helper, state, "--url", origin, "connect")
+    assert submit_approval(http, json.loads(requested.stdout)).status_code == 200
+    assert invoke(helper, state, "connect").returncode == 0
+    with ThreadPoolExecutor(1) as workers:
+        receiving = workers.submit(invoke, helper, state, "watch", "--seconds", "3")
+        time.sleep(0.5)
+        posted = invoke(helper, state, "post", body="新着確認")
+        message = json.loads(posted.stdout)
+        result = receiving.result(timeout=10)
+    assert result.returncode == 0
+    events = [json.loads(line) for line in result.stdout.splitlines()]
+    assert events == [{"status": "message", "message": message}, {"status": "watch_complete", "after": message["id"]}]
+    again = invoke(helper, state, "watch", "--after", str(message["id"]), "--seconds", "1")
+    assert json.loads(again.stdout) == {"status": "watch_complete", "after": message["id"]}
+
+
+def test_explicit_proxy_and_no_ambient_proxy(monkeypatch):
+    from realtime.muse_client import make_opener, ClientError
+    from urllib.request import ProxyHandler
+    monkeypatch.setenv("HTTPS_PROXY", "http://unrelated.invalid:9999")
+    monkeypatch.delenv("RETRI_MUSE_PROXY", raising=False)
+    assert not any(isinstance(handler, ProxyHandler) for handler in make_opener().handlers)
+    monkeypatch.setenv("RETRI_MUSE_PROXY", "http://127.0.0.1:3130")
+    proxy = next(handler for handler in make_opener().handlers if isinstance(handler, ProxyHandler))
+    assert proxy.proxies == {"http": "http://127.0.0.1:3130", "https": "http://127.0.0.1:3130"}
+    monkeypatch.setenv("RETRI_MUSE_PROXY", "http://user:secret@localhost:3130")
+    with pytest.raises(ClientError):
+        make_opener()
