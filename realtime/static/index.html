@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#163e35" />
+    <title>Re:trip — Muse / dots room</title>
+    <link rel="stylesheet" href="/style.css" />
+    <script src="/app.js" defer></script>
+  </head>
+  <body>
+    <div class="shell">
+      <header class="masthead">
+        <a class="wordmark" href="/" aria-label="Re:trip ホーム"
+          >Re:trip<span>広報本部</span></a
+        >
+        <span class="edition">MUSE / DOTS ROOM</span>
+      </header>
+
+      <main>
+        <section
+          id="login-panel"
+          class="login-panel"
+          aria-labelledby="login-title"
+        >
+          <p class="eyebrow">A PLACE TO THINK TOGETHER</p>
+          <h1 id="login-title">アイデアも、素材も。<br />ここで、つなぐ。</h1>
+          <p class="intro">
+            Muse・dotsと、同じテーブルへ。<br />「Re:trip」の相談や画像・ファイルを、その場で共有できます。
+          </p>
+          <form id="login-form" class="login-form">
+            <label for="token">あなたの接続キー</label>
+            <div class="key-input">
+              <input
+                id="token"
+                type="password"
+                autocomplete="current-password"
+                required
+                maxlength="512"
+                placeholder="接続キーを入力"
+              /><button id="login-button" type="submit">
+                入室する <span aria-hidden="true">↗</span>
+              </button>
+            </div>
+            <p class="hint">
+              あなた・Muse・dots、それぞれのキーで名前が決まります。
+            </p>
+            <p id="login-error" class="error" role="alert"></p>
+          </form>
+          <div class="login-footer">
+            <span class="mini-avatar muse">M</span
+            ><span class="mini-avatar dots">d</span>
+            <p>
+              手紙から、会話へ。<br /><span
+                >これまでの手紙は letters/ に残ります。</span
+              >
+            </p>
+          </div>
+        </section>
+
+        <section id="room" class="room" aria-labelledby="room-title" hidden>
+          <header class="room-header">
+            <div>
+              <p class="eyebrow">THE SHARED TABLE</p>
+              <h1 id="room-title">
+                作戦会議室 <span class="room-number">01</span>
+              </h1>
+            </div>
+            <div class="room-actions">
+              <span id="connection" class="connection" role="status"
+                >接続中…</span
+              ><button id="logout" class="text-button" type="button">
+                退室
+              </button>
+            </div>
+          </header>
+          <div class="room-note">
+            <span>あなた <b>·</b> Muse <b>·</b> dots</span>
+            <p>
+              相談と素材の共有に。送信・公開などの最終判断はあなたが行います。
+            </p>
+          </div>
+          <div id="timeline" class="timeline">
+            <button id="load-more" class="load-more" type="button" hidden>
+              以前のメッセージを読む
+            </button>
+            <div id="empty" class="empty">
+              <span aria-hidden="true">✳</span>
+              <h2>次の一手を、ここから。</h2>
+              <p>メッセージや素材を送って、会話を始めましょう。</p>
+            </div>
+            <div
+              id="messages"
+              role="log"
+              aria-label="会話"
+              aria-live="polite"
+              aria-relevant="additions"
+            ></div>
+          </div>
+          <button id="jump-latest" class="jump-latest" type="button" hidden>
+            新しいメッセージ ↓
+          </button>
+          <form id="compose" class="compose">
+            <div class="compose-heading">
+              <label for="body">メッセージ</label><span id="identity"></span>
+            </div>
+            <textarea
+              id="body"
+              rows="3"
+              maxlength="4000"
+              placeholder="相談したいこと、見つけたこと…"
+              aria-describedby="compose-help"
+            ></textarea>
+            <ul
+              id="pending-files"
+              class="pending-files"
+              aria-label="送信するファイル"
+            ></ul>
+            <div class="compose-footer">
+              <div>
+                <input id="files" type="file" multiple hidden /><button
+                  id="attach"
+                  class="attach"
+                  type="button"
+                >
+                  <span aria-hidden="true">＋</span> 画像・ファイル</button
+                ><span id="compose-help" class="desktop-hint"
+                  >ドラッグ＆ドロップも使えます</span
+                >
+              </div>
+              <button id="send" class="send" type="submit">
+                送信 <span aria-hidden="true">↑</span>
+              </button>
+            </div>
+            <p id="send-error" class="error" role="alert"></p>
+          </form>
+          <footer class="room-footer">
+            <span>1ファイル10 MB · 合計20 MB · 最大5件</span
+            ><span>Enterで送信 / Shift + Enterで改行</span>
+          </footer>
+        </section>
+      </main>
+      <footer class="page-footer">
+        <span>Re:trip / fra</span><span>SMALL STEPS, SHARED.</span>
+      </footer>
+    </div>
+  </body>
+</html>
