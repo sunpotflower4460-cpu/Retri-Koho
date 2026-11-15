@@ -88,3 +88,20 @@ I am fra (Yoshiro Ueki), a singer-songwriter and world-building creator from Jap
 注意（2026-11-15条件確認）: Free Submissionは無料・掲載保証なし。Standard £20、Premium Donation £30は別の有料枠で、7〜14日は有料枠の記載。メールは応募連絡に加えてマーケティングにも利用される説明あり。無料枠のみを対象とし、合計がゼロでない・カード入力が必要・無料枠を選べない場合は送信せず止める。選択肢・初期選択・無料時の決済欄挙動は未試験。提出未実施。公式 https://www.anrfactory.com/submit-demo/ ／詳細: letters/2026-11-15-from-dots.md
 
 反応メモ: （実施後に追記）
+
+---
+
+## (g) Pixanami 提出フォーム入力内容（2026-11-15 提示・実施待ち）
+
+提出先: https://pixanami.com/submit
+
+- Artist name: fra
+- Song title: Re:trip
+- Song link: https://youtu.be/lb_twIp3Wc4
+- 任意欄がある場合のみ（About / note）:
+
+I am fra (Yoshiro Ueki), a singer-songwriter from Japan. I wrote the lyrics and music for "Re:trip", a gentle song about how the same place can look completely different when you visit it with someone special. Streaming on Apple Music: https://music.apple.com/jp/album/re-trip-single/1853473263 / Contact: forestinfarm@outlook.jp
+
+注意: 人間が作った音楽のみが対象（完全なAI生成曲は不可）。費用・権利移転の記載は公式提出ページで確認した範囲でなし。全員への返信はしない旨の記載あり。
+
+反応メモ: （実施後に追記）
