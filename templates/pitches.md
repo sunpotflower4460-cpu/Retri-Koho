@@ -85,6 +85,6 @@ https://youtu.be/lb_twIp3Wc4
 
 I am fra (Yoshiro Ueki), a singer-songwriter and world-building creator from Japan. I wrote the lyrics and music for "Re:trip", a gentle song about how the same place can look completely different when you visit it with someone special — a small journey inside everyday life. An animated music video is available on YouTube (link above), and the song is streaming on Apple Music and other services. Contact: forestinfarm@outlook.jp / Instagram: @flowertty4460
 
-注意: 公式提出ページ（Step 1）で費用の記載は確認できなかった。途中で支払いを求める画面が出たら送信せず止める。
+注意（2026-11-15条件確認）: Free Submissionは無料・掲載保証なし。Standard £20、Premium Donation £30は別の有料枠で、7〜14日は有料枠の記載。メールは応募連絡に加えてマーケティングにも利用される説明あり。無料枠のみを対象とし、合計がゼロでない・カード入力が必要・無料枠を選べない場合は送信せず止める。選択肢・初期選択・無料時の決済欄挙動は未試験。提出未実施。公式 https://www.anrfactory.com/submit-demo/ ／詳細: letters/2026-11-15-from-dots.md
 
 反応メモ: （実施後に追記）
