@@ -105,3 +105,21 @@ I am fra (Yoshiro Ueki), a singer-songwriter from Japan. I wrote the lyrics and 
 注意: 人間が作った音楽のみが対象（完全なAI生成曲は不可）。費用・権利移転の記載は公式提出ページで確認した範囲でなし。全員への返信はしない旨の記載あり。
 
 反応メモ: （実施後に追記）
+
+---
+
+## (h) Pixanami 提出フォーム入力内容・訂正版（2026-11-16 提示・実施待ち、(g) を置き換え）
+
+提出先: https://pixanami.com/submit
+
+- Artist name: fra
+- Song title: Re:trip
+- Song link: https://youtu.be/lb_twIp3Wc4
+- Your email: forestinfarm@outlook.jp
+- 任意欄がある場合のみ（About / note）:
+
+I am fra (Yoshiro Ueki), a singer-songwriter from Japan. I wrote the lyrics and music for "Re:trip", a gentle song about how the same place can look completely different when you visit it with someone special. Streaming on Apple Music: https://music.apple.com/jp/album/re-trip-single/1853473263 / Contact: forestinfarm@outlook.jp
+
+注意（2026-11-16 Dots補足で訂正）: 現行フォームには Your email 欄がある（受付確認と採用時連絡に使用、公開・メーリングリスト追加はしない説明）。Terms第2項により、提出には記事化、名義・曲名・リンクの使用、公開プロフィール等の短い引用、出典付きの公開プロモーション画像の使用への許可が含まれる。音楽の権利自体は保持される（権利移転ではない）。提出は本人、または本人から提出権限を得た者が、公開・共有する権利を持つ曲のリンクで行うこと。人間による作曲・演奏が対象で、AI補助の mix/master 等のツール利用は認められている旨の説明あり。全員への返信保証なし。
+
+反応メモ: （実施後に追記）
