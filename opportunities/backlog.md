@@ -36,3 +36,14 @@
 | Blinding Talent Playlists 楽曲提出 | プレイリスト | なし | 無料 | 未着手（Spotify URL待ち） | 公式: 人手キュレーション、提出は完全無料・毎週レビュー・有料掲載なし、採用時のみメール通知。Sad Songs（Singer-songwriter）／Acoustic Hits／Indie Roadtrip 等が候補。Spotifyプレイリストのため Spotify曲リンクが前提となり PromoLink／Spotify URL確定待ちに統合 https://www.blindingtalent.com/playlists |
 | SubmitMusic.ca プレイリスト提出 | プレイリスト | なし | 無料 | 未着手（Spotify URL待ち） | FAQ: 完全無料・Spotifyログイン不要だが Spotify曲URLが必要。Spotify曲URLが前提のため PromoLink確認待ちに統合 https://www.submitmusic.ca/faq |
 | MUSIC NEXUS 楽曲応募 | ラジオ/配信 | 毎月末 | 応募無料／配信代行は別契約 | 未着手（権利・素材・既往応募確認待ち） | Dots 2026-11-17確認。リンクのみ不可、音源・画像・連絡先が必要。作詞作曲本人だけで原盤・実演・編曲・画像の許諾を推定しない。公式規約の利用許諾/保証を確認してから本人判断。会議室全34件と最新mainに提出記録なし、会議室外は未確認。条件・出典は letters/2026-11-17-from-dots-2.md。未提出 https://mn.usmusic.co.jp/ |
+| MUSIC NEXUS 楽曲応募（状態更新） | ラジオ/配信 | 2026-11-30（月内受付） | 応募無料／配信代行は別契約 | 提示済み（2026-11-18 今日の一手） | 本人の権利確認（2026-11-17）で保証の前提は解消。原盤ライセンス提供型の初回提出のため送信は本人判断。入力内容は templates/pitches.md (i)。電話・正式歌詞は本人入力 https://mn.usmusic.co.jp/entry/ |
+| Tracksynk シンク応募 | シンク | なし | 無料（ライセンス料の75%がアーティスト） | 未着手（インスト版の有無が前提） | 非独占・所有権保持・人間制作のみ。全曲インスト版必須で現在はインスト中心に優先受付 https://www.tracksynk.com/for-artists |
+| HEARTH Studios シンク提出 | シンク | なし | 無料（sync fee 50/50） | 未着手（提出停止中・再開待ち） | 無料・リンクのみ・非独占・掲載ごとに事前確認・AI生成不可。公式ページに Submissions are paused の表示 https://buildyourhearth.studio/music-artists.html |
+| Sync.Land 掲載 | シンク/ストック | なし | 無料（手数料30%） | 未着手（本人提示が前提） | 掲載無料・非独占・価格はアーティスト設定。無料アカウント作成＋原盤アップロードが必要で Free Sync 枠（条件付き無料ライセンス）を含むため、原盤ライセンス提供型の初回提出として本人提示が前提 https://www.sync.land/about/ |
+
+## 2026-11-17〜18 状態補記（ローカル台帳 state.json が正本、下記の状態が上表の古い行より優先）
+- 提出完了（2026-11-17）: Blinding Talent Playlists / SubmitMusic.ca（審査待ち #132）/ Kolibri Music / PlaylistPartner（3件）/ SubmitLink（無料枠2件）/ PlaylistDock（3件）/ For the Love of Bands（プレイリストルート）/ DJ KTWO / Lost On Radio（RCM 共通フォーム）/ Amazing Radio（本人がライセンス条件を個別承認）
+- 提出完了（2026-11-18）: Indiemono / A&R Factory（Free Submission・£0）/ SongsBrew / The LA Note / RAG プレスリリース（審査待ち）
+- 保留: SubmitHub・Tune Tavern（本人のパスワード設定待ち）/ LiveLand（送信未確認・再送禁止）/ indiegrab（メール未送信・認証回復後に再送）/ Two Story Melody（reCAPTCHA で自動送信不可）
+- 見送り: FreeWave Radio（ロイヤリティフリー条件）/ 道しるべラジオ（募集終了）/ PitchPlaylists（本人の再指示があるまで再挑戦しない）
+- 前提解消: 権利確認（2026-11-17 本人: Re:trip・原盤・ジャケットの権利は本人）、Spotify 曲URLと BIG UP! 共有リンクを確定（配信は BIG UP! 経由）
