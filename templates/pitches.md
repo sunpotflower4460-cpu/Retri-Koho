@@ -141,3 +141,38 @@ I am fra (Yoshiro Ueki), a singer-songwriter from Japan. I wrote the lyrics and 
 注意: 規約第3〜5・11条に、放送/配信利用（複製等）・音質補正への同意、編曲を含むオリジナル性と著作権・隣接権・肖像権等の所有または必要許諾の保証、違反時の賠償請求条項あり。利用対価は原則なし（管理楽曲の使用料は別規定）。月内受付、同曲は配信後3か月再応募不可。配信代行は別契約。本人の権利確認（2026-11-17）により保証の前提は本人の回答と一致するが、原盤ライセンス提供型の初回提出のため送信は本人の判断・操作に委ねる。
 
 反応メモ: （提出・結果後に追記）
+
+---
+
+## (j) Channel Radio 楽曲ピッチメール（2026-11-19 提示・本人送信）
+
+提出先: newmusic@channelradio.co.uk（公式FAQ: https://www.channelradio.co.uk/top-10-musician-questions-answered-how-to-get-your-folk-or-indie-track-on-the-radio-in-2026/ ）
+件名: Music submission: fra – Re:trip
+添付: 本人のMP3ファイル（Re:trip、原盤ファイル。MV音声抽出ファイルは使わない）
+
+本文:
+Hello Channel Radio music team,
+
+I am fra (Yoshiro Ueki), an independent singer-songwriter from Japan. I am submitting my song "Re:trip" for airplay consideration, including your Choice Track of the Week.
+
+I wrote the lyrics and music for "Re:trip". It is a gentle indie folk / pop song about how the same place can look completely different when you visit it with someone special — a small journey inside everyday life. An animated music video is available on YouTube.
+
+Listen / watch:
+- YouTube (full animated MV): https://youtu.be/lb_twIp3Wc4
+- Apple Music: https://music.apple.com/jp/album/re-trip-single/1853473263
+- Spotify: https://open.spotify.com/track/52NcTDvXdY7w0v3vF3bC4G
+- All services: https://big-up.style/miLX0mFB0w
+
+The MP3 is attached to this email. Release: already released and streaming on Apple Music, Spotify and other services.
+
+Contact: forestinfarm@outlook.jp
+Instagram: @flowertty4460
+
+Thank you very much for listening and for supporting independent artists.
+
+Best regards,
+fra (Yoshiro Ueki)
+
+注意: 公式FAQで提出無料を確認（掲載への支払いは求められない。有料の広告・プロモーション枠は別で使わない）。権利移転・独占・ロイヤリティフリーの記載は確認した範囲でなし。送信は本人のメールから行う。
+
+反応メモ: （送信・結果後に追記）

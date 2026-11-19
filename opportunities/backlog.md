@@ -47,3 +47,9 @@
 - 保留: SubmitHub・Tune Tavern（本人のパスワード設定待ち）/ LiveLand（送信未確認・再送禁止）/ indiegrab（メール未送信・認証回復後に再送）/ Two Story Melody（reCAPTCHA で自動送信不可）
 - 見送り: FreeWave Radio（ロイヤリティフリー条件）/ 道しるべラジオ（募集終了）/ PitchPlaylists（本人の再指示があるまで再挑戦しない）
 - 前提解消: 権利確認（2026-11-17 本人: Re:trip・原盤・ジャケットの権利は本人）、Spotify 曲URLと BIG UP! 共有リンクを確定（配信は BIG UP! 経由）
+
+## 2026-11-19 状態補記
+- Channel Radio 楽曲ピッチ（英国）: 提示済み（2026-11-19 今日の一手・本人送信）。公式FAQで提出無料・権利移転の記載なしを確認。宛先 newmusic@channelradio.co.uk、文面は templates/pitches.md (j)。音源はメール添付。 https://www.channelradio.co.uk/top-10-musician-questions-answered-how-to-get-your-folk-or-indie-track-on-the-radio-in-2026/
+- GZS Records 提出（ネットラジオ）: 未着手（保留・要本人判断）。無料・非独占・いつでも取り下げ可・権利は保持と明記。ただし「双方向無料（放送側もアーティスト側も支払いなし）」の条件を含むため、ロイヤリティフリーに近い条件として本人の判断を待つ。提出はリンク形式（音源リンク＋ブロック指定）。 https://www.groundzerosum.com/submit/
+- Kiwiradio.nz: ホスト関係を概ね確認（kiwiradio.nz 本体にも同一の局名・内容）。提出は MP3 320k のメール添付（kiwiradio@proton.me）でも可と公式FAQにあり、第三者ホスト必須ではない。無料提出は掲載・返信保証なし。有料 Get Featured（$40 NZD〜）は使わない。未着手のまま次点候補。
+- エンたま！: 2026-11-19 公式ページで募集継続を確認。楽曲募集ページに送信先の明記がなく、連絡経路の特定が残るため保留継続。
