@@ -53,3 +53,10 @@
 - GZS Records 提出（ネットラジオ）: 未着手（保留・要本人判断）。無料・非独占・いつでも取り下げ可・権利は保持と明記。ただし「双方向無料（放送側もアーティスト側も支払いなし）」の条件を含むため、ロイヤリティフリーに近い条件として本人の判断を待つ。提出はリンク形式（音源リンク＋ブロック指定）。 https://www.groundzerosum.com/submit/
 - Kiwiradio.nz: ホスト関係を概ね確認（kiwiradio.nz 本体にも同一の局名・内容）。提出は MP3 320k のメール添付（kiwiradio@proton.me）でも可と公式FAQにあり、第三者ホスト必須ではない。無料提出は掲載・返信保証なし。有料 Get Featured（$40 NZD〜）は使わない。未着手のまま次点候補。
 - エンたま！: 2026-11-19 公式ページで募集継続を確認。楽曲募集ページに送信先の明記がなく、連絡経路の特定が残るため保留継続。
+
+## 2026-11-20 夕方デイリー補記
+- Songcurator プレイリスト提出: 提出完了（2026-11-20、無料・アカウント不要、再送禁止）。公式Termsで権利保持・許諾は審査用の公開メタデータ表示に限定を確認。ジャンル選択肢に Folk/Indie がなく Pop／Indie Pop プレイリストへ提出。送信後の「Daily limit reached」表示で受付確認。 https://www.songcurator.com/
+- Cold Bore Records／Cold Bore Radio 提出: 未着手（新規候補 2026-11-20・要確認: 提出仲介サービス Radio Submissions の規約）。公式ガイドラインで完全無料・全ジャンル・権利は所有/管理の確認のみ、掲載時は公式版を使用しクレジット表示、短いクリップのSNS投稿あり、メーリングリストへの無断追加なしを確認。 https://coldboreproductions.com/guidelines
+- JAM Audio Live 提出: 未着手（新規候補 2026-11-20・要確認: 提出フォーム側の料金・権利条件が未確認）。公式ページで全ジャンル（Singer Songwriter含む）・人手レビュー・Spotify/YouTube等のリンク提出可を確認。 https://jamaudio.live/artist-submissions
+- Musicvertising 無料プレイリスト提出: 未着手（新規候補 2026-11-20・保留: 提出後の有料プラン案内と occasional offers メールあり）。公式で無料・アカウント不要・237+キュレーターへ一括送信を確認。 https://musicvertising.com/free-playlist-submission/
+- Planetary Records プレイリストピッチ: 提示済み（2026-11-20 今日の一手）。ピッチ下書きは入力済み、送信には forestinfarm@outlook.jp 宛マジックリンクのクリックが必要（本人の手番・約3分）。入力内容は templates/pitches.md (k)。 https://www.planetary.music/collections/submit

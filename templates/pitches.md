@@ -176,3 +176,43 @@ fra (Yoshiro Ueki)
 注意: 公式FAQで提出無料を確認（掲載への支払いは求められない。有料の広告・プロモーション枠は別で使わない）。権利移転・独占・ロイヤリティフリーの記載は確認した範囲でなし。送信は本人のメールから行う。
 
 反応メモ: （送信・結果後に追記）
+
+---
+
+## (k) Planetary Records プレイリストピッチ（2026-11-20 提示・本人のマジックリンク完了が手番）
+
+提出先: https://www.planetary.music/collections/submit
+状態: 2026-11-20 13:00ループでピッチ下書きを入力済み。送信には forestinfarm@outlook.jp 宛に届くマジックリンク（サインインリンク）のクリックが必要で、パスワード設定はなし。リンク自体は資格情報のため Muse は取得・転送しない。
+
+入力済み／入力する内容:
+- Artist: fra
+- Track: Re:trip
+- Spotify: https://open.spotify.com/track/52NcTDvXdY7w0v3vF3bC4G
+- Genre / vibe: Pop & Melodic
+- Your role: Lyrics and music by fra（作詞・作曲のみを fra に帰属させる。レコーディング以降は別の担当者である点と矛盾させない）
+- Pitch 本文（欄が空ならそのまま貼る）:
+
+Hi, I'm fra, an independent singer-songwriter from Japan. I wrote the lyrics and music for "Re:trip" — a gentle, melodic pop song about how the same place can look completely different when you visit it with someone special. It's out now on Spotify and Apple Music, with a full animated MV on YouTube: https://youtu.be/lb_twIp3Wc4 — Thank you for considering it for your playlists.
+
+注意（2026-11-20公式Terms確認）: 無料。権利はアーティストが保持し、許諾は private review と playlist placement に限定。撤回・削除請求可。権利譲渡・独占・ロイヤリティフリーの要求なし。
+
+手順（約3分）:
+1. メール（forestinfarm@outlook.jp）で Planetary からのサインインリンクを開く
+2. リンクをクリックしてサインインする
+3. 下書きのピッチが表示されたら内容を確認し、本文欄が空なら上の Pitch 本文を貼る
+4. 「Send pitch」を押す
+
+反応メモ: （送信・結果後に追記）
+
+---
+
+## Songcurator 提出メモ（2026-11-20 提出完了）
+
+提出先: https://www.songcurator.com/submit ／ Terms: https://www.songcurator.com/terms
+- Artist: fra / Email: forestinfarm@outlook.jp / Spotify: https://open.spotify.com/track/52NcTDvXdY7w0v3vF3bC4G
+- Genre: Pop（選択肢に Folk/Indie Folk/Indie なし）／ Playlist: Indie Pop
+- Curator note: Gentle indie folk/pop from Japan. I wrote the lyrics and music for Re:trip — a song about how the same place looks different when you visit it with someone special. Full animated MV on YouTube. Thank you for listening.
+- 条件: 無料・アカウント不要（実フロー）。Termsで権利保持、許諾は審査用の公開メタデータ表示に限定。支払い・Gate・パスワードなし。
+- 結果: 送信後に「Daily limit reached」と表示され1日枠消費で受付確認。成功トースト原文は記録できず。再送禁止。
+
+反応メモ: （掲載・返信後に追記）
