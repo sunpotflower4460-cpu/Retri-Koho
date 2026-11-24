@@ -200,3 +200,62 @@ fra (Yoshiro Ueki)
 - 備考欄がある場合: 「AIから出力された音源をそのまま使用したものではありません。人間が作詞・作曲した楽曲です。」
 注意: 応募は1団体5曲まで・合計30分程度まで。結果は締切後10日以内に応募者全員へ連絡。CD-ROM・応募用紙は返却なし。
 反応メモ: （応募・結果後に追記）
+
+---
+
+## (m) Cumulative Radio 365 提出フォーム入力内容（2026-11-23 入力済み・未送信、今日の一手）
+
+提出先: https://cumulative-radio-365.pages.dev/submit
+
+- Artist name: fra
+- Contact email: forestinfarm@outlook.jp
+- Track title: Re:trip
+- Streaming link: https://open.spotify.com/track/52NcTDvXdY7w0v3vF3bC4G
+- Genre: Pop（ドロップダウンに Indie / Folk / Singer-Songwriter がなく最も近いものを選択。備考欄で indie folk/pop と補足）
+- Short bio / notes:
+
+fra is a singer-songwriter and world-building creator from Japan. Lyrics and music by fra. "Re:trip" is a gentle indie folk/pop song about how the same place can look completely different when you visit it with someone special. Released via BIG UP! and streaming on Spotify, Apple Music and YouTube. ISRC: JP92N2551601.
+
+- 権利確認チェックボックス: チェック済み（文言は「放送検討への許可」のみ。放送前に権利者からの別途ライセンス確認が必要と局の発表に明記）
+
+注意: 2026-11-23 に Muse がフォーム入力まで完了したが、Cloudflare Turnstile の人間確認が自動ブラウザ環境で通らず未送信。支払い・アカウント作成・独占／ロイヤリティフリーの要求・音源アップロード要求はいずれもなし。本人が入力済みフォームで人間確認→送信を仕上げる（約1分）。
+
+反応メモ: （送信・結果後に追記）
+
+---
+
+## (n) Japan Top 10 (J-Top 10) ポッドキャスト ピッチ（2026-11-24 送信済み）
+
+提出先: hayleyg@jtop10.jp（公式 Music Submission Policy https://jtop10.mymti.org/extras/music-submission-policy/ ）
+件名: Music Submission: "Re:trip" by fra
+添付: 原盤 320kbps MP3（retrip-master.mp3）
+本文:
+
+Hello Hayley,
+
+I would like to submit a song for consideration on Japan Top 10.
+
+Artist: fra (Japan)
+Song: "Re:trip"
+Genre: Indie folk / pop, sung in Japanese
+
+"Re:trip" is a gentle song about how the same familiar place can look completely different when you visit it with someone special. Lyrics and music are by fra.
+
+The MP3 (320kbps) is attached to this email, as requested in your Music Submission Policy.
+
+Streaming links:
+Spotify: https://open.spotify.com/track/52NcTDvXdY7w0v3vF3bC4G
+Apple Music: https://music.apple.com/jp/album/re-trip-single/1853473263
+YouTube: https://youtu.be/lb_twIp3Wc4
+ISRC: JP92N2551601
+Released via BIG UP!
+
+If the song is featured, I am happy to give Japan Top 10 a shout-out on social media.
+
+Thank you for listening and for supporting Japanese independent music.
+
+Best regards,
+fra
+(forestinfarm@outlook.jp)
+
+反応メモ: 2026-11-24 19:21 JST 送信完了（送信済みフォルダで添付ありを確認）。掲載時は番組へのSNS等での shout-out のみ依頼される形式。再送禁止。
