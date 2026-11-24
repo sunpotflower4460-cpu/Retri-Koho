@@ -72,3 +72,20 @@
 | Oktaves ラジオ提出（Oktaves Take） | ラジオ | なし | 無料 | 未着手（保留: Drive/Dropboxリンク＝第三者ホスト承認が必要） | 人手制作の音楽のみで適合。WAVまたは320kbps MP3の共有リンクで提出 https://www.oktaves.com/apply/radio |
 | LabelRadar レーベル提出 | レーベル/デモ | なし | 無料Lite（月次クレジット）／PRO $10/月 | 未着手（保留: 規約に royalty-free 許諾があり停止条件に該当＋パスワードが本人の手番） | 提出は音源アップロード＋20秒クリップ型。所有権は保持されるが規約第4条に royalty-free のサービス内利用許諾（削除/退会で権利は戻る）あり。AI生成音楽ポリシーは未確認 https://www.labelradar.com/for-artists |
 | MySphera プレイリスト提出 | プレイリスト | なし | 要確認 | 未着手（要確認: 公式サイトが白紙で条件未確認） | 公式条件が確認できるまで提出しない https://www.mysphera.co/ |
+
+### 2026-11-23
+| Cumulative Radio 365 提出 | ラジオ | なし | 無料 | 提示済み（2026-11-23 今日の一手・フォーム入力済み、Turnstile の人間確認で未送信） | 同意は放送検討への許可のみで、放送前に権利者の別途ライセンス確認が必要。アカウント不要・支払いなし・権利要求なし。入力内容は templates/pitches.md (m)。自動環境では送信できなかったため本人が仕上げる https://cumulative-radio-365.pages.dev/submit |
+| NexChord シンク提出 | シンク | なし | 無料 | 未着手（本人提示が前提） | 非独占・所有権保持・掲載ごとに24時間の承認枠・提出無料を公式が明記。ただし sync agreement への署名が前提のため、原盤ライセンス提供型の初回提出として本人提示が前提 https://www.nexchord.com/for-artists |
+| TJKS Radio 提出 | ラジオ | なし | 無料 | 未着手（要本人判断: 電子署名＋ロイヤリティなし明記） | 非独占・取消可能な放送同意で所有権は保持。ただし提出に本人の電子署名と正式氏名が必要で、「ロイヤリティは支払わない」と明記あり https://tjksradio.com/submit-your-music/ |
+| SpinGrey プレイリスト提出 | プレイリスト | なし | 要確認 | 未着手（要確認: 提出経路） | Spotifyプレイリスト57件。第三者情報では提出は Patreon 経由との説明があり、無料の公式経路は未確認 https://imusician.pro/en/resources/blog/10-free-curator-playlists-to-submit-your-music |
+| Indie Music Network 無料提出（Spinlog MAG / 40MAG / INDIEINDEX） | メディア/プレイリスト | なし | 無料 | 未着手（保留: フォローが前提条件） | 提出自体は無料だが「チャンネルをフォローすること」が前提条件のため、本人のアカウント変更を伴う Gates 型として保留 https://www.indieindex.de/network |
+| Velvet Ruin Radio 提出 | ラジオ | なし | 無料 | 見送り（2026-11-23確認: 非英語の曲は受け付けないと FAQ に明記。Re:trip は日本語曲のため対象外） | 権利保持・非独占・Live365 経由のロイヤリティ処理など条件自体は確認済みだが、言語条件で不一致 https://velvetruinstudios.com/radio |
+| HEARTH Studios シンク提出（状態更新） | シンク | なし | 無料 | 未着手（提出停止中・継続。2026-11-23 再確認でも "Submissions are paused" の表示） | 再開したら再評価 https://buildyourhearth.studio/music-artists.html |
+
+### 2026-11-24
+| Japan Top 10 (J-Top 10) ポッドキャスト楽曲提出 | ポッドキャスト/ラジオ | なし | 無料 | 提出完了（2026-11-24、原盤320kbps MP3をメール添付して送信、送信済みで確認済み） | 公式 Music Submission Policy: MP3/M4Aをメール添付（外部DLリンク不可）、日本語・日本の音楽要素が必須で適合、掲載保証なし・不採用時は理由説明あり、権利要求なし。ピッチ文は templates/pitches.md (n)。再送禁止 https://jtop10.mymti.org/extras/music-submission-policy/ |
+| Kiwiradio.nz 無料提出（状態更新） | ラジオ | なし | 無料 | 未送信（2026-11-24 再送試行がサービス再起動で中断、送信済みに記録なし。次回に1回だけ再送） | Outlook送信は同日の Japan Top 10 送信で回復を確認済み。原盤320kbps MP3を kiwiradio@proton.me へメール添付で提出可（公式FAQ） |
+| indiegrab 掲載（状態更新） | 音楽ニュース掲載 | なし | 無料 | 未送信（保留継続・次回送り） | Outlook送信の回復は確認済みのため、次回に送信済みフォルダを確認してから再送する https://indiegrab.jp/about/ |
+| Battle to LuckyFes'27（LuckyFes 出演オーディション） | オーディション/フェス | 2027-01-10 23:59 | 要確認（TuneCore Japan のオーディション基盤） | 未着手（本人判断: オーディション。最終審査は東京のライブハウスでのライブ審査） | 2026-11-24 応募開始。音源審査→動画審査→最終ライブ審査、最大2組が LuckyFes'27 出演権＋副賞10万円。自動応募しない https://www.tunecore.co.jp/wanted/battle-to-luckyfes27 |
+| Love City Radio 楽曲提出 | ラジオ | なし | 費用の記載なし | 未着手（要確認: 募集ページは第三者のタレントプール上でのみ確認でき、局公式の条件が未確認） | Tallyフォームでアーティスト名・説明・リンクを提出する形式とされるが、公式の裏付けが取れるまで提出しない https://talent.askdrflow.com/opportunities/QVI7Z00Q |
+| エンたま！ 楽曲募集（状態更新） | ラジオ | なし | 無料 | 未着手（保留: GigaFile便へのアップロード＝第三者ホスト承認が必要） | 送信経路を特定: 音源を GigaFile便にアップロードし、DLアドレス等をリクエストフォームで知らせる形式。JASRAC/NexTone への権利登録の有無の申告要。権利要求なし https://ayafumi-bar.wixsite.com/entama/music |
