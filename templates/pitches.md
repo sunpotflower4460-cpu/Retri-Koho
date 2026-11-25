@@ -259,3 +259,23 @@ fra
 (forestinfarm@outlook.jp)
 
 反応メモ: 2026-11-24 19:21 JST 送信完了（送信済みフォルダで添付ありを確認）。掲載時は番組へのSNS等での shout-out のみ依頼される形式。再送禁止。
+
+---
+
+## (o) Kiwiradio.nz ピッチ（2026-11-25 送信済み）
+
+提出先: kiwiradio@proton.me（公式FAQ https://thisflighttonight.com/faq 、無料提出・MP3 320kメール添付）
+件名: Music Submission: "Re:trip" by fra (Japan) — indie folk/pop, MP3 320k attached
+添付: 原盤 320kbps MP3（retrip-master.mp3）
+本文: Japan Top 10 宛 (n) と同構成の英語文。海外アーティストであること、Free Submission（Get Featured不使用）、人間制作・AI不使用、ライブ演奏の実績があり実演動画リンクは求められれば提供できる旨を明記。リンク（Spotify/Apple Music/YouTube/ISRC JP92N2551601/BIG UP!経由）を記載。
+反応メモ: 2026-11-25 19:13 JST 送信完了（送信済みフォルダで添付ありを確認）。無料提出は掲載・返信保証なし。再送禁止。
+
+---
+
+## (p) indiegrab 情報提供メール（2026-11-25 送信済み）
+
+提出先: info@indiegrab.jp（公式 https://indiegrab.jp/about/ 、ニュース掲載は掲載料なし）
+件名: 【情報提供】fra、シングル「Re:trip」を配信中（インディーフォーク/ポップ）
+添付: ジャケット画像（retrip-cover-art.jpg）
+本文: アーティスト fra／曲名「Re:trip」／ジャンル（インディーフォーク/ポップ・日本語詞）／BIG UP!経由で配信中／作詞・作曲は fra、の各項目と曲の紹介1文、試聴リンク（Spotify/Apple Music/YouTube/配信リンク集/ISRC）を記載した日本語の情報提供文。
+反応メモ: 2026-11-25 19:14 JST 送信完了（送信済みフォルダで添付ありを確認）。2026-11-18の401認証エラーによる未送信分の再送。再送禁止。
