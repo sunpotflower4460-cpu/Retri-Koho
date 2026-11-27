@@ -103,3 +103,8 @@
 - Untidy Radio 楽曲提出（radio）: submitted 2026-11-26（Googleフォームの権利条件を確認、タグ付き原盤MP3＋ジャケットで提出、確認文言「回答を記録しました。」。再送禁止）
 - Radio Index 楽曲提出（radio）: pending（2026-11-26規約全文確認: 無料ライセンス＋DJミックス改変許諾あり、本人判断）
 - AshRaven Radio 提出（radio）: pending（2026-11-26再評価: 単曲可・条件クリーンだが、YouTube Content IDポリシーの申告が確認できないため保留）
+
+- IRLZAY 楽曲提出（radio）: pending（新規候補 2026-11-27・要確認: 公式 Carrd で Kick の 24/7 インディーラジオと提出受付を確認したが、提出先メールアドレスの公式表記が取得テキストで伏せられ確定できず保留。第三者記事のアドレスには依存しない） https://irlzay.carrd.co
+- Indie Shuffle 楽曲提出（blog）: pending（新規候補 2026-11-27・保留: 提出は SubmitHub 経由のみ。SubmitHub は本人のパスワード設定待ち。ジャンル適合も中程度） https://www.indieshuffle.com/
+- HEARTH Studios シンク提出（状態更新）: 提出停止中（2026-11-27再確認でも "Submissions are paused while we review" が継続）
+- SONO Music 無料プレイリスト提出（状態更新）: 公式サイト到達不可が継続（2026-11-27再確認）。条件未確認のまま保留
