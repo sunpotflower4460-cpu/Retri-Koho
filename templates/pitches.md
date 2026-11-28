@@ -279,3 +279,19 @@ fra
 添付: ジャケット画像（retrip-cover-art.jpg）
 本文: アーティスト fra／曲名「Re:trip」／ジャンル（インディーフォーク/ポップ・日本語詞）／BIG UP!経由で配信中／作詞・作曲は fra、の各項目と曲の紹介1文、試聴リンク（Spotify/Apple Music/YouTube/配信リンク集/ISRC）を記載した日本語の情報提供文。
 反応メモ: 2026-11-25 19:14 JST 送信完了（送信済みフォルダで添付ありを確認）。2026-11-18の401認証エラーによる未送信分の再送。再送禁止。
+
+---
+
+## (q) Red Devil Radio 提出フォーム入力文案（2026-11-28 提示・アカウント作成後に使用）
+
+提出先: https://reddevilradio.com/artists.html （アーティストアカウント作成＋メール認証のうえ提出フォームへ）
+公式確認（2026-11-28）: 初回1曲は無料、権利は保持、非独占、いつでも削除リクエスト可（宛先は公式ページ記載の連絡先）、放送保証なし。2曲目以降は1曲$1のため使わない。
+
+- Artist name: fra
+- Track title: Re:trip
+- Links: Spotify https://open.spotify.com/track/52NcTDvXdY7w0v3vF3bC4G / YouTube MV https://youtu.be/lb_twIp3Wc4 / All services https://big-up.style/miLX0mFB0w
+- Creation story / about the track（フォームの背景説明欄用）:
+"Re:trip" is a gentle indie folk/pop song by Japanese singer-songwriter fra, who wrote both the lyrics and the music. It is about returning to the same place with someone special and finding that it looks completely different — a small journey inside everyday life. The song is released via BIG UP! and streaming on Spotify, Apple Music and other services, with an animated music video on YouTube.
+- Credits note: Lyrics and music by fra. （レコーディング以降は別の担当者であるため、それ以外の役割は fra に帰属させない）
+
+反応メモ: （アカウント作成・提出後に追記）

@@ -108,3 +108,6 @@
 - Indie Shuffle 楽曲提出（blog）: pending（新規候補 2026-11-27・保留: 提出は SubmitHub 経由のみ。SubmitHub は本人のパスワード設定待ち。ジャンル適合も中程度） https://www.indieshuffle.com/
 - HEARTH Studios シンク提出（状態更新）: 提出停止中（2026-11-27再確認でも "Submissions are paused while we review" が継続）
 - SONO Music 無料プレイリスト提出（状態更新）: 公式サイト到達不可が継続（2026-11-27再確認）。条件未確認のまま保留
+
+- Atwood Magazine 楽曲ピッチ（blog/magazine）: submitted 2026-11-28（13:00ループで送信。公式 Pitching Us で無料メールピッチ・権利要求なし・AI拒否記載なしを確認、Spotifyリンクで Today's Song 検討依頼、送信済み確認済み。再送禁止）
+- Red Devil Radio 楽曲提出（radio）: presented 2026-11-28（今日の一手）。公式確認: 初回1曲無料・権利保持・非独占・削除リクエスト可・放送保証なし。提出にはアーティストアカウント作成＋メール認証が必要で、パスワード設定は本人の手番。入力文案は templates/pitches.md (q) https://reddevilradio.com/artists.html
